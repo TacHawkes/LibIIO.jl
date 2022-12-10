@@ -1,0 +1,13 @@
+name = "LibIIO"
+uuid = "054d326e-df27-43d9-b4b2-3b491c653341"
+authors = ["Oliver Kliebisch <oliver@kliebisch.net> and contributors"]
+version = "0.1.0"
+
+[compat]
+julia = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
