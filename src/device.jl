@@ -48,7 +48,7 @@ function channels(d::AbstractDeviceOrTrigger)
     chns = [Channel(device_or_trigger(d),
                     _get_channel(device_or_trigger(d).device, convert(Cuint, x - 1)))
             for x in 1:_channels_count(device_or_trigger(d).device)]
-    sort!(chns, by=x->id(x))
+    sort!(chns, by = x -> id(x))
 
     return chns
 end

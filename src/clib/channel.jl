@@ -78,7 +78,8 @@ function iio_channel_attr_read(chn::Ptr{iio_channel}, attr::String)
                 (Ptr{iio_channel}, Cstring, Cstring, Csize_t),
                 chn, attr, pointer(dst), BUF_SIZE)
 
-    attr == C_NULL ? (attrs = iio_parse_attr(dst, ret)) : (attrs = unsafe_string(pointer(dst)))
+    attr == C_NULL ? (attrs = iio_parse_attr(dst, ret)) :
+    (attrs = unsafe_string(pointer(dst)))
     return ret, attrs
 end
 

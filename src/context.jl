@@ -1,6 +1,6 @@
 context(ctx::AbstractContext) = ctx.context
 set_timeout(ctx::AbstractContext, timeout) = _set_timeout(context(ctx), timeout)
-clone(ctx::T) where T <: AbstractContext = T(_clone(context(ctx)))
+clone(ctx::T) where {T <: AbstractContext} = T(_clone(context(ctx)))
 name(ctx::AbstractContext) = ctx.name
 description(ctx::AbstractContext) = ctx.description
 xml(ctx::AbstractContext) = ctx.xml_file
@@ -13,9 +13,9 @@ function find_device(ctx::AbstractContext, name_or_id_or_label)
 end
 
 function devices(ctx::AbstractContext)
-    return [(_d_is_trigger(dev) ? Trigger(ctx, dev) : Device(ctx, dev)) for dev in [
-        _get_device(context(ctx), convert(Cuint, x - 1)) for x in 1:_devices_count(context(ctx))
-    ]]
+    return [(_d_is_trigger(dev) ? Trigger(ctx, dev) : Device(ctx, dev))
+            for dev in [_get_device(context(ctx), convert(Cuint, x - 1))
+                        for x in 1:_devices_count(context(ctx))]]
 end
 
 function show(io::IO, ctx::AbstractContext)
@@ -35,7 +35,7 @@ function show(io::IO, ctx::AbstractContext)
     nb_ctx_attrs = _get_attrs_count(_ctx)
     nb_ctx_attrs > 0 && println(io, "IIO context has $nb_ctx_attrs attributes:")
 
-    for i=0:(nb_ctx_attrs-1)
+    for i in 0:(nb_ctx_attrs - 1)
         ret, name, value = _get_attr(_ctx, convert(Cuint, i))
         if ret == 0
             println(io, "\t$name: $value")
@@ -79,14 +79,12 @@ function Context(context = nothing)
     xml = _get_xml(ctx)
     ret, major, minor, git_tag = _get_version(ctx)
 
-    _context = Context(
-        ctx,
-        name,
-        description,
-        xml,
-        (major, minor, git_tag),
-        attrs
-    )
+    _context = Context(ctx,
+                       name,
+                       description,
+                       xml,
+                       (major, minor, git_tag),
+                       attrs)
 
     finalizer(_context) do x
         _destroy(x.context)
@@ -109,9 +107,7 @@ struct LocalContext <: AbstractBackendContext
 end
 function LocalContext()
     ctx = _new_local()
-    return LocalContext(
-        Context(ctx)
-    )
+    return LocalContext(Context(ctx))
 end
 LocalContext(ctx::Ptr{iio_context}) = LocalContext(Context(ctx))
 
@@ -120,19 +116,15 @@ struct XMLContext <: AbstractBackendContext
 end
 function XMLContext(xmlfile::String)
     ctx = _new_xml(xmlfile)
-    return XMLContext(
-        Context(ctx)
-    )
+    return XMLContext(Context(ctx))
 end
 XMLContext(ctx::Ptr{iio_context}) = XMLContext(Context(ctx))
 
 struct NetworkContext <: AbstractBackendContext
     context::Context
 end
-function NetworkContext(hostname::Union{String, Nothing}=nothing)
+function NetworkContext(hostname::Union{String, Nothing} = nothing)
     ctx = !isnothing(hostname) ? _new_network(hostname) : nothing
-    return NetworkContext(
-        Context(ctx)
-    )
+    return NetworkContext(Context(ctx))
 end
 NetworkContext(ctx::Ptr{iio_context}) = NetworkContext(Context(ctx))

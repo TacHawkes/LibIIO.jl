@@ -42,7 +42,8 @@ function show(io::IO, chn::AbstractChannel)
     _id = chn.id
     print(io, "\t\t\t$_id: $_name ($type_name")
 
-    (type(chn) == IIO_CHAN_TYPE_UNKNOWN) && print(io, ", WARN::iio_channel_get_type()=UNKNOWN")
+    (type(chn) == IIO_CHAN_TYPE_UNKNOWN) &&
+        print(io, ", WARN::iio_channel_get_type()=UNKNOWN")
 
     if chn.scan_element
         format = _channel_get_data_format(_chn)
@@ -56,7 +57,8 @@ function show(io::IO, chn::AbstractChannel)
             _repeat = "X$(format.repeat)"
         end
 
-        println(io, ", index: $_idx, format: $(_endianness)e:$(_sign)$(format.bits)/$(format.length)$_repeat>>$(format.shift))")
+        println(io,
+                ", index: $_idx, format: $(_endianness)e:$(_sign)$(format.bits)/$(format.length)$_repeat>>$(format.shift))")
     else
         println(io, ")")
     end
@@ -110,10 +112,10 @@ Initializes a new instance of the Channel type.
 - A new instance of this type
 """
 function Channel(dev::AbstractDeviceOrTrigger, channel::Ptr{iio_channel})
-    attrs = Dict{String, ChannelAttr}(
-        name => ChannelAttr(channel, name) for name in [
-            _c_get_attr(channel, convert(Cuint, x - 1))
-                for x in 1:_c_attr_count(channel)])
+    attrs = Dict{String, ChannelAttr}(name => ChannelAttr(channel, name)
+                                      for name in [_c_get_attr(channel,
+                                                               convert(Cuint, x - 1))
+                                                   for x in 1:_c_attr_count(channel)])
     id = _c_get_id(channel)
     name = _c_get_name(channel)
     output = _c_is_output(channel)
@@ -141,7 +143,7 @@ Extract the samples corresponding to this channel from the given buffer.
 # Returns
 - A `Vector{Cuchar}` containing the samples for this channel
 """
-function read(chn::Channel, buf::AbstractBuffer, raw=false)
+function read(chn::Channel, buf::AbstractBuffer, raw = false)
     dst = Vector{Cuchar}(undef, length(buf))
     if raw
         len = _c_read_raw(chn.channel, buf.buffer, dst)
@@ -151,7 +153,7 @@ function read(chn::Channel, buf::AbstractBuffer, raw=false)
     return dst
 end
 
-function write(chn::Channel, buf::AbstractBuffer, array::Vector{Cuchar}, raw=false)
+function write(chn::Channel, buf::AbstractBuffer, array::Vector{Cuchar}, raw = false)
     if raw
         return _c_write_raw(chn.channel, buf.buffer, array)
     end

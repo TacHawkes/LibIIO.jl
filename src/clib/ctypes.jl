@@ -4,7 +4,7 @@ Empty structs for C pointers
 mutable struct iio_scan_context
     function iio_scan_context()
         ctx = new()
-        finalizer(x->iio_scan_context_destroy(pointer(x)), ctx)
+        finalizer(x -> iio_scan_context_destroy(pointer(x)), ctx)
     end
 end
 mutable struct iio_scan_block end

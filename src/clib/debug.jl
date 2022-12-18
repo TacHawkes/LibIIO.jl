@@ -15,9 +15,9 @@ end
 
 function iio_channel_get_data_format(chn::Ptr{iio_channel})
     df = ccall((:iio_channel_get_data_format, libiio),
-                 Ptr{iio_data_format},
-                 (Ptr{iio_channel},),
-                 chn)
+               Ptr{iio_data_format},
+               (Ptr{iio_channel},),
+               chn)
     return unsafe_load(df)
 end
 
@@ -97,7 +97,8 @@ function iio_device_debug_attr_write_raw(dev::Ptr{iio_device}, attr::String,
                  dev, attr, src, len)
 end
 
-function iio_device_debug_attr_write_all(dev::Ptr{iio_device}, cb::Ptr{Cvoid}, data::Ptr{Cvoid})
+function iio_device_debug_attr_write_all(dev::Ptr{iio_device}, cb::Ptr{Cvoid},
+                                         data::Ptr{Cvoid})
     return ccall((:iio_device_debug_attr_write_all, libiio),
                  Cint,
                  (Ptr{iio_device}, Ptr{Cvoid}, Ptr{Cvoid}),
@@ -138,42 +139,42 @@ function iio_device_debug_attr_write_bool(dev::Ptr{iio_device}, attr::String, va
                  dev, attr, val)
 end
 
-function iio_device_debug_attr_write_longlong(dev::Ptr{iio_device}, attr::String, val::Clonglong)
+function iio_device_debug_attr_write_longlong(dev::Ptr{iio_device}, attr::String,
+                                              val::Clonglong)
     return ccall((:iio_device_debug_attr_write_longlong, libiio),
                  Cint,
                  (Ptr{iio_device}, Cstring, Clonglong),
                  dev, attr, val)
 end
 
-function iio_device_debug_attr_write_double(dev::Ptr{iio_device}, attr::String, val::Cdouble)
+function iio_device_debug_attr_write_double(dev::Ptr{iio_device}, attr::String,
+                                            val::Cdouble)
     return ccall((:iio_device_debug_attr_write_double, libiio),
                  Cint,
                  (Ptr{iio_device}, Cstring, Cdouble),
                  dev, attr, val)
 end
 
-function iio_device_identify_filename(dev::Ptr{iio_device}, filename::String, chn::Ptr{Ptr{iio_channel}}, attr::String)
+function iio_device_identify_filename(dev::Ptr{iio_device}, filename::String,
+                                      chn::Ptr{Ptr{iio_channel}}, attr::String)
     return ccall((:iio_device_identify_filename, libiio),
-            Cint,
-            (Ptr{iio_device}, Cstring, Ptr{Ptr{iio_channel}}, Cstring),
-            dev, filename, chn, attr
-    )
+                 Cint,
+                 (Ptr{iio_device}, Cstring, Ptr{Ptr{iio_channel}}, Cstring),
+                 dev, filename, chn, attr)
 end
 
 function iio_device_reg_write(dev::Ptr{iio_device}, address::Cuint, value::Cuint)
     return ccall((:iio_device_reg_write, libiio),
-            Cint,
-            (Ptr{iio_device}, Cuint, Cuint),
-            dev, address, value
-    )
+                 Cint,
+                 (Ptr{iio_device}, Cuint, Cuint),
+                 dev, address, value)
 end
 
 function iio_device_reg_read(dev::Ptr{iio_device}, address::Cuint)
     value = Ref{Cuint}()
     ret = ccall((:iio_device_reg_read, libiio),
-            Cint,
-            (Ptr{iio_device}, Cuint, Ptr{Cuint}),
-            dev, address, value
-    )
+                Cint,
+                (Ptr{iio_device}, Cuint, Ptr{Cuint}),
+                dev, address, value)
     return ret, value[]
 end

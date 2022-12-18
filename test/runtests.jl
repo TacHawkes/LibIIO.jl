@@ -21,7 +21,7 @@ dac_buf = LibIIO.Buffer(
     400
 )
 ##
-y = round.(Int16, 10000*sin.(2π*1/400*(1:400)))
+y = round.(Int16, 10000*sin.(2π*1/200*(1:400)))
 
 ##
 write(dac_buf, y)

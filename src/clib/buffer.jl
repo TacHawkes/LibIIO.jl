@@ -100,16 +100,14 @@ end
 
 function iio_buffer_set_data(buf::Ptr{iio_buffer}, data)
     return ccall((:iio_buffer_set_data, libiio),
-                Cvoid,
-                (Ptr{iio_buffer}, Ptr{Cuchar}),
-                buf, data
-    )
+                 Cvoid,
+                 (Ptr{iio_buffer}, Ptr{Cuchar}),
+                 buf, data)
 end
 
 function iio_buffer_get_data(buf::Ptr{iio_buffer})
     return ccall((:iio_buffer_get_data, libiio),
-                Ptr{iio_device},
-                (Ptr{iio_buffer},),
-                buf
-    )
+                 Ptr{iio_device},
+                 (Ptr{iio_buffer},),
+                 buf)
 end

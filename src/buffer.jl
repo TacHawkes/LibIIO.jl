@@ -7,15 +7,15 @@ mutable struct Buffer{T <: AbstractDeviceOrTrigger} <: AbstractBuffer
     dev::T
 end
 
-function Buffer(device::T, samples_count, cyclic::Bool=false) where T <: AbstractDeviceOrTrigger
-    buf = _create_buffer(device_or_trigger(device).device, convert(Csize_t, samples_count), cyclic)
+function Buffer(device::T, samples_count,
+                cyclic::Bool = false) where {T <: AbstractDeviceOrTrigger}
+    buf = _create_buffer(device_or_trigger(device).device, convert(Csize_t, samples_count),
+                         cyclic)
 
-    buffer = Buffer(
-        buf,
-        samples_count * sample_size(device),
-        samples_count,
-        device
-    )
+    buffer = Buffer(buf,
+                    samples_count * sample_size(device),
+                    samples_count,
+                    device)
     finalizer(buffer) do x
         _buffer_destroy(x.buffer)
     end
@@ -25,7 +25,9 @@ end
 length(buf::Buffer) = buf.length
 refill(buf::Buffer) = _buffer_refill(buf.buffer)
 push(buf::Buffer) = _buffer_push_partial(buf.buffer, convert(Csize_t, buf.samples_count))
-push(buf::Buffer, samples_count) = _buffer_push_partial(buf.buffer, convert(Csize_t, samples_count))
+function push(buf::Buffer, samples_count)
+    _buffer_push_partial(buf.buffer, convert(Csize_t, samples_count))
+end
 
 function read(buf::Buffer)
     _start = _buffer_start(buf.buffer)
@@ -39,7 +41,7 @@ function read(buf::Buffer)
     return dst
 end
 
-function write(buf::Buffer, array::Vector{T}) where T
+function write(buf::Buffer, array::Vector{T}) where {T}
     _array = reinterpret(Cuchar, array)
     _start = _buffer_start(buf.buffer)
     _end = _buffer_end(buf.buffer)
@@ -57,3 +59,4 @@ set_blocking_mode(buf::Buffer, blocking) = _buffer_set_blocking_mode(buf.buffer,
 device(buf::Buffer) = buf.dev
 poll_fd(buf::Buffer) = _buffer_get_poll_fd(buf.buffer)
 step(buf::Buffer) = _buffer_step(buf.buffer)
+^
