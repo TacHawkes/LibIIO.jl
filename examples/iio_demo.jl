@@ -11,10 +11,10 @@ This shows how to use buffers for high-speed data transfer.
 using LibIIO
 
 # Adjust to your settings
-uri = "ip:127.0.0.1"
+uri = "ip:192.168.64.2"
 
 # dummy signal to feed into the DAC and read back using the ADC
-y = round.(Int16, 10000*sin.(2π*1/200*(1:400)))
+y = round.(Int16, 10000*sin.(2π*1/300*(1:400)))
 
 # create context
 ctx = Context(uri)
@@ -32,13 +32,13 @@ enabled!(dac_chn, true)
 enabled!(adc_chn, true)
 
 # create DAC buffer with 400 samples
-dac_buf = LibIIO.Buffer(
+dac_buf = Buffer(
     dac,
     400
 )
 
 # create the ADC buffer for reading
-adc_buf = LibIIO.Buffer(
+adc_buf = Buffer(
     adc,
     400
 )
@@ -55,7 +55,7 @@ refill(adc_buf)
 # Retrieve the samples from the buffer
 data = read(adc_buf)
 
-# Convert them to Int16
+# Reinterpret as Int16, the actual sample format
 d2 = reinterpret(Int16, data)
 
 # Verify that the read signal matches the original signal

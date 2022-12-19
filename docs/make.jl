@@ -13,7 +13,22 @@ makedocs(;
         assets=String[],
     ),
     pages=[
-        "Home" => "index.md"
+        "Home" => "index.md",
+        "Examples" => "examples.md",
+        "Context" => "context.md",
+        "Devices" => "device.md",
+        "Channel" => "channel.md",
+        "Buffer" => "buffer.md",
+        "Low-level libiio access" => [
+            "Overview" => "cindex.md",
+            "Functions for scanning available contexts" => "cscan.md",
+            "Top-level functions" => "ctoplevel.md",
+            "Context" => "ccontext.md",
+            "Device" => "cdevice.md",
+            #"cchannel.md",
+            #"cbuffer.md",
+            #"cdebug.md"
+        ]
     ],
 )
 

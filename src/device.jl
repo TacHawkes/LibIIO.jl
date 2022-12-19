@@ -247,6 +247,7 @@ struct DeviceOrTrigger{T <: AbstractContext} <: AbstractDeviceOrTrigger
     name::String
     label::String
 end
+
 function DeviceOrTrigger(ctx::AbstractContext, device::Ptr{iio_device})
     context = _d_get_context(device)
     attrs = Dict{String, DeviceAttr}(name => DeviceAttr(device, name)

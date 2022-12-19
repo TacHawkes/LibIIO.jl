@@ -1,3 +1,6 @@
+"""
+    iio_device_get_context(dev)
+"""
 function iio_device_get_context(dev::Ptr{iio_device})
     return ccall((:iio_device_get_context, libiio),
                  Ptr{iio_context},
