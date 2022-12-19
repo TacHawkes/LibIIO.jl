@@ -37,5 +37,6 @@ export Context,
        channels,
        enabled,
        enabled!,
-       push
+       push,
+       refill
 end
