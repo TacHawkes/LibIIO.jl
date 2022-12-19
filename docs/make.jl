@@ -1,4 +1,5 @@
 using LibIIO
+using LibIIO.CLibIIO
 using Documenter
 
 DocMeta.setdocmeta!(LibIIO, :DocTestSetup, :(using LibIIO); recursive=true)
@@ -16,6 +17,7 @@ makedocs(;
     ),
     pages=[
         "Home" => "index.md",
+        "Low-level C-API" => "capi.md"
     ],
 )
 

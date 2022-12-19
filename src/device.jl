@@ -38,12 +38,54 @@ read(a::DeviceBufferAttr) = _d_read_buffer_attr(a.device, a.name)
 write(a::DeviceBufferAttr, value) = _d_write_buffer_attr(a.device, a.name, value)
 
 device_or_trigger(d::AbstractDeviceOrTrigger) = d
+
+"""
+    id(d::AbstractDeviceOrTrigger)
+
+An identifier of the device, only valid in this IIO context.
+"""
 id(d::AbstractDeviceOrTrigger) = device_or_trigger(d).id
+
+"""
+    name(d::AbstractDeviceOrTrigger)
+
+The name of the device.
+"""
 name(d::AbstractDeviceOrTrigger) = device_or_trigger(d).name
+
+"""
+    label(d::AbstractDeviceOrTrigger)
+
+The label of the device.
+"""
 label(d::AbstractDeviceOrTrigger) = device_or_trigger(d).label
+
+"""
+    attrs(d::AbstractDeviceOrTrigger)
+
+List of attributes for the IIO device.
+"""
 attrs(d::AbstractDeviceOrTrigger) = device_or_trigger(d).attrs
+
+"""
+    debug_attrs(d::AbstractDeviceOrTrigger)
+
+List of debug attributes for the IIO device.
+"""
 debug_attrs(d::AbstractDeviceOrTrigger) = device_or_trigger(d).debug_attrs
+
+"""
+    buffer_attrs(d::AbstractDeviceOrTrigger)
+
+List of buffer attributes for the IIO device.
+"""
 buffer_attrs(d::AbstractDeviceOrTrigger) = device_or_trigger(d).buffer_attrs
+
+"""
+    channels(d::AbstractDeviceOrTrigger)
+
+List of channels available with this IIO device.
+"""
 function channels(d::AbstractDeviceOrTrigger)
     _dt = device_or_trigger(d)
     chns = [Channel(_dt,
@@ -54,19 +96,71 @@ function channels(d::AbstractDeviceOrTrigger)
     return chns
 end
 
+"""
+    reg_write(d::AbstractDeviceOrTrigger, reg, value)
+
+Set a valie to one register of the device.
+
+# Parameters
+- `d` : The device instance
+- `reg` : The register address
+- `value` ; The value that will be used for this register
+"""
 function reg_write(d::AbstractDeviceOrTrigger, reg, value)
     _d_reg_write(device_or_trigger(d).device, reg, value)
 end
+
+"""
+    reg_read(d::AbstractDeviceOrTrigger, reg)
+
+Read the content of a register of this device.
+
+# Parameters
+- `d` : The device instance
+- `reg` : The register address
+
+# Returns
+- The value of the register
+"""
 reg_read(d::AbstractDeviceOrTrigger, reg) = _d_reg_read(device_or_trigger(d).device, reg)
 
+"""
+    find_channel(d::AbstractDeviceOrTrigger, name_or_id, is_output = false)
+
+Find an IIO channel by its name or ID.
+
+# Parameters
+- `d` : The device instance
+- `name_or_id` : The name or ID of the channel to find
+- `is_output` : Set to true to search for an output channel
+
+# Returns
+- The IIO channel as `Channel`
+"""
 function find_channel(d::AbstractDeviceOrTrigger, name_or_id, is_output = false)
     chn = _d_find_channel(device_or_trigger(d).device, name_or_id, is_output)
     return chn == C_NULL ? nothing : Channel(d, chn)
 end
 
+"""
+    set_kernel_buffers_count(d::AbstractDeviceOrTrigger, count)
+
+Set the number of kernel buffers to use with the specified device
+
+# Parameters
+- `d` : The device instance
+- `count` : The number of kernel buffers
+"""
 function set_kernel_buffers_count(d::AbstractDeviceOrTrigger, count)
     _d_set_buffers_count(device_or_trigger(d).device, count)
 end
+
+"""
+    sample_size(d::AbstractDeviceOrTrigger)
+
+Sample size of the device.
+The sample size varies each time channels get enabled or disabled.
+"""
 sample_size(d::AbstractDeviceOrTrigger) = _get_sample_size(device_or_trigger(d).device)
 
 function show(io::IO, dev::AbstractDeviceOrTrigger)
@@ -187,29 +281,84 @@ function DeviceOrTrigger(ctx::AbstractContext, device::Ptr{iio_device})
                            label)
 end
 
+"""
+Contains the representation of an IIO device that can act as a trigger.
+"""
 struct Trigger{T <: AbstractContext} <: AbstractDeviceOrTrigger
     trigger::DeviceOrTrigger{T}
 end
+
+"""
+    Trigger(ctx::AbstractContext, device::Ptr{iio_device})
+
+Initializes a new Trigger instance.
+
+# Parameters
+- `ctx` : The IIO context instance with which the device is accessed
+- `device` : A pointer to an iio_device which represents this trigger
+"""
 function Trigger(ctx::AbstractContext, device::Ptr{iio_device})
     return Trigger(DeviceOrTrigger(ctx, device))
 end
 device_or_trigger(t::Trigger) = t.trigger
+
+"""
+    frequency(t::Trigger)
+
+Configured frequency (in Hz) of the trigger.
+"""
 frequency(t::Trigger) = parse(Int, read(attrs(t)["sampling_frequency"]))
+
+"""
+    frequency!(t::Trigger, value)
+
+Set the trigger rate.
+"""
 frequency!(t::Trigger, value) = write(attrs(t)["sampling_frequency"], string(value))
 
+"""
+Contains the representation of an IIO device.
+"""
 struct Device{T <: AbstractContext} <: AbstractDeviceOrTrigger
     device::DeviceOrTrigger{T}
 end
+
+"""
+    Device(ctx::AbstractContext, device::Ptr{iio_device})
+
+Initializes a new Device instance.
+
+# Parameters
+- `ctx` : The IIO context instance with which the device is accessed
+- `device` : A pointer to an iio_device which represents this device
+"""
 function Device(ctx::AbstractContext, device::Ptr{iio_device})
     return Device(DeviceOrTrigger(ctx, device))
 end
 device_or_trigger(d::Device) = d.device
 hwmon(d::Device) = error("TODO")
-context(d::Device) = d.device.ctx
 
+"""
+    context(d::Device)
+
+Context for the device.
+"""
+context(d::Device) = device_or_trigger(d).ctx
+
+"""
+    trigger!(d::Device, trigger::Trigger)
+
+Sets the configured trigger for this IIO device.
+"""
 function trigger!(d::Device, trigger::Trigger)
     _d_set_trigger(d.device.device, trigger.device.device)
 end
+
+"""
+    trigger(d::Device)
+
+Returns the configured trigger for this IIO device, if present in the current context.
+"""
 function trigger(d::Device)
     ret, _trig = _d_get_trigger(d.device.device)
     trig = Trigger(context(d), _trig)
