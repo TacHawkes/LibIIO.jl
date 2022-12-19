@@ -273,6 +273,21 @@ function iio_context_get_name(ctx::Ptr{iio_context})
                                ctx))
 end
 
+"""
+    iio_context_get_description(ctx)
+
+Get a description of the given context.
+
+# Parameters
+- `ctx::Ptr{iio_context}` : A pointer to an [`iio_context`](@ref) structure
+
+# Returns
+- A `String` containing the description
+
+**NOTE:** The returned string will contain human-readable information about the current context.
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Context.html#ga5591da0927887e88be4ef7d670cb60a9)
+"""
 function iio_context_get_description(ctx::Ptr{iio_context})
     return unsafe_string(ccall((:iio_context_get_description, libiio),
                                Cstring,
@@ -280,6 +295,21 @@ function iio_context_get_description(ctx::Ptr{iio_context})
                                ctx))
 end
 
+"""
+    iio_context_get_attrs_count(ctx)
+
+Get the number of context-specific attributes.
+
+# Parameters
+- `ctx::Ptr{iio_context}` : A pointer to an [`iio_context`](@ref) structure
+
+# Returns
+- The number of context-specific attributes
+
+Introduced in version 0.9
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Context.html#ga91e0c4ed91d760b411d4cbea28c993da)
+"""
 function iio_context_get_attrs_count(ctx::Ptr{iio_context})
     return ccall((:iio_context_get_attrs_count, libiio),
                  Cuint,
@@ -287,6 +317,23 @@ function iio_context_get_attrs_count(ctx::Ptr{iio_context})
                  ctx)
 end
 
+"""
+    iio_context_get_attr(ctx, index)
+
+Retrieve the name and value of a context-specific attribute.
+
+# Parameters
+- `ctx::Ptr{iio_context}` : A pointer to an [`iio_context`](@ref) structure
+- `index::Cuint` : The index corresponding to the attribute
+
+# Returns
+- On success, a 3-Tuple of (0, name, value) is returned
+- On error, a negative errno code is returned
+
+Introduced in version 0.9
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Context.html#ga477dfddaefe0acda401f600247e13fc7)
+"""
 function iio_context_get_attr(ctx::Ptr{iio_context}, index::Cuint)
     name, value = Ref{Cstring}(), Ref{Cstring}()
     ret = ccall((:iio_context_get_attr, libiio),
@@ -297,6 +344,23 @@ function iio_context_get_attr(ctx::Ptr{iio_context}, index::Cuint)
     return (ret == 0) ? (ret, unsafe_string(name[]), unsafe_string(value[])) : (ret, "", "")
 end
 
+"""
+    iio_context_get_attr_value(ctx, name)
+
+Retrieve the value of a context-specific attribute.
+
+# Parameters
+- `ctx::Ptr{iio_context}` : A pointer to an [`iio_context`](@ref) structure
+- `name::String` : The name of the context attribute to read
+
+# Returns
+- On success, a `String` with the value of the attribute
+- If the name does not correspond to any attribute, C_NULL is returned
+
+Introduced in version 0.9
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Context.html#ga6394d108d425e4a6ed28d00c0e93d6ed)
+"""
 function iio_context_get_attr_value(ctx::Ptr{iio_context}, name::String)
     value = ccall((:iio_context_get_attr_value, libiio),
                   Cstring,
@@ -306,6 +370,19 @@ function iio_context_get_attr_value(ctx::Ptr{iio_context}, name::String)
     return value != C_NULL ? unsafe_string(value) : ""
 end
 
+"""
+    iio_context_get_devices_count(ctx)
+
+Enumerate the devices found in the given context.
+
+# Parameters
+- `ctx::Ptr{iio_context}` : A pointer to an [`iio_context`](@ref) structure
+
+# Returns
+- The number of devices found
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Context.html#gab4fc2a93fd5824f3c9e06aa81e8097d1)
+"""
 function iio_context_get_devices_count(ctx::Ptr{iio_context})
     return ccall((:iio_context_get_devices_count, libiio),
                  Cuint,
@@ -313,6 +390,21 @@ function iio_context_get_devices_count(ctx::Ptr{iio_context})
                  ctx)
 end
 
+"""
+    iio_context_get_device(ctx, index)
+
+Get the device present at the given index.
+
+# Parameters
+- `ctx::Ptr{iio_context}` : A pointer to an [`iio_context`](@ref) structure
+- `index::Cuint` : The index corresponding to the device
+
+# Returns
+- On success, a pointer to an [`iio_device`](@ref) structure
+- If the index is invalid, an error is raised
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Context.html#ga3f2813ff34bf96c7c85dd05909f1c709)
+"""
 function iio_context_get_device(ctx::Ptr{iio_context}, index::Cuint)
     return @check_null ccall((:iio_context_get_device, libiio),
                              Ptr{iio_device},
@@ -320,6 +412,21 @@ function iio_context_get_device(ctx::Ptr{iio_context}, index::Cuint)
                              ctx, index)
 end
 
+"""
+    iio_context_find_device(ctx, name)
+
+Try to find a device structure by its ID, label or name.
+
+# Parameters
+- `ctx::Ptr{iio_context}` : A pointer to an [`iio_context`](@ref) structure
+- `name::String` : A string corresponding to the ID, label or name of the device to search for
+
+# Returns
+- On success, a pointer to an [`iio_device`](@ref) structure
+- If the parameter does not correspond to the ID, label or name of any known device, an error is raised
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Context.html#gade1dadfb5bc3c3b236add67f803c50c3)
+"""
 function iio_context_find_device(ctx::Ptr{iio_context}, name::String)
     return @check_null ccall((:iio_context_find_device, libiio),
                              Ptr{iio_device},
@@ -327,6 +434,21 @@ function iio_context_find_device(ctx::Ptr{iio_context}, name::String)
                              ctx, name)
 end
 
+"""
+    iio_context_set_timeout(ctx, timeout_ms)
+
+Set a timeout for I/O operations.
+
+# Parameters
+- `ctx::Ptr{iio_context}` : A pointer to an [`iio_context`](@ref) structure
+- `timeout_ms::Cuint` : A positive integer representing the time in milliseconds after which a timeout occurs. A value of 0 is used to specify that no timeout should occur.
+
+# Returns
+- On success, 0 is returned
+- On error, a negative errno code is returned
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Context.html#gaba3f4c4f9f885f41a6c0b9ac79b7f28d)
+"""
 function iio_context_set_timeout(ctx::Ptr{iio_context}, timeout_ms::Cuint)
     return ccall((:iio_context_set_timeout, libiio),
                  Cint,
