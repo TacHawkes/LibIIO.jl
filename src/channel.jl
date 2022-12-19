@@ -69,15 +69,7 @@ function show(io::IO, chn::AbstractChannel)
 
         k = 0
         for (_name, attr) in chn.attrs
-            ret, value = read(attr)
-            print(io, "\t\t\t\tattr $k: $_name ")
-
-            if ret > 0
-                println(io, "value: $value")
-            else
-                err_str = iio_strerror(-ret)
-                println(io, "ERROR: $err_str")
-            end
+            show(io, attr, k)
 
             k += 1
         end
@@ -153,21 +145,104 @@ function read(chn::Channel, buf::AbstractBuffer, raw = false)
     return dst
 end
 
-function write(chn::Channel, buf::AbstractBuffer, array::Vector{Cuchar}, raw = false)
+"""
+    read(chn::Channel, buf::AbstractBuffer, data::Vector{T}, raw=false) where {T}
+
+Write the specified vector of samples into the buffer the specified channel.
+
+# Parameters
+- `chn::Channel` : The channel instance
+- `buf::AbstractBuffer` :  A buffer instance
+- `data::Vector{T}` : A data vector containing the samples to copy
+- `raw::Bool`:  If set to true, the samples are not converted from their
+                host format to their native format
+
+# Returns
+- The number of bytes written
+"""
+function write(chn::Channel, buf::AbstractBuffer, data::Vector{T}, raw = false) where {T}
+    _data = reinterpret(Cuchar, data)
     if raw
-        return _c_write_raw(chn.channel, buf.buffer, array)
+        return _c_write_raw(chn.channel, buf.buffer, _data)
     end
-    return _c_write(chn.channel, buf.buffer, array)
+    return _c_write(chn.channel, buf.buffer, _data)
 end
 
+"""
+    id(chn::Channel)
+
+An identifier of this channel.
+Note that it is possible that two channels have the same ID,
+if one is an input channel and the other is an output channel.
+"""
 id(chn::Channel) = chn.id
+
+"""
+    attrs(chn::Channel)
+
+List of attributes for the given channel.
+"""
 attrs(chn::Channel) = chn.attrs
+
+"""
+    output(chn::Channel)
+
+Contains true if the channel is an output channel, false otherwise.
+"""
 output(chn::Channel) = chn.output
+
+"""
+    scan_element(chn::Channel)
+
+Contains true if the channel is a scan element, false otherwise.
+"""
 scan_element(chn::Channel) = chn.scan_element
+
+"""
+    enabled(chn::Channel)
+
+Returns true if the channel is enabled, false otherwise.
+"""
 enabled(chn::Channel) = _c_is_enabled(chn.channel)
+
+"""
+    enabled!(chn::Channel, state)
+
+Sets the channel state to enabled if true, disabled otherwise.
+"""
 enabled!(chn::Channel, state) = state ? _c_enable(chn.channel) : _c_disable(chn.channel)
+
+"""
+    device(chn::Channel)
+
+Retrieves the corresponding `AbstractDeviceOrTrigger` for this channel.
+"""
 device(chn::Channel) = chn.dev
+
+"""
+    index(chn::Channel)
+
+Returns the index of the channel.
+"""
 index(chn::Channel) = _channel_get_index(chn.channel)
+
+"""
+    data_format(chn::Channel)::iio_data_format
+
+Returns the channel data format as a C-struct.
+"""
 data_format(chn::Channel) = _channel_get_data_format(chn.channel)
+
+"""
+    modifier(chn::Channel)::iio_modifier
+
+Returns the channel modifier as an enum value.
+"""
 modifier(chn::Channel) = _channel_get_modifier(chn.channel)
+
+"""
+    type(chn::Channel)::iio_chan_type
+
+Returns the channel type as an enum value.
+"""
 type(chn::Channel) = _channel_get_type(chn.channel)

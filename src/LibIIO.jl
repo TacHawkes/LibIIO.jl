@@ -34,6 +34,7 @@ export Context,
        find_channel,
        find_device,
        devices,
+       channels,
        enabled,
        enabled!
 end

@@ -59,4 +59,3 @@ set_blocking_mode(buf::Buffer, blocking) = _buffer_set_blocking_mode(buf.buffer,
 device(buf::Buffer) = buf.dev
 poll_fd(buf::Buffer) = _buffer_get_poll_fd(buf.buffer)
 step(buf::Buffer) = _buffer_step(buf.buffer)
-^

@@ -3,12 +3,12 @@
 
 Get the version of the libiio library.
 
-See: [iio_library_get_version](https://analogdevicesinc.github.io/libiio/master/libiio/group__TopLevel.html#gaaa29e5bac86d00a1cef6e2d00b0ea24c)
-
 # Returns
 - `major::UInt` : The major version
 - `minor::UInt` : The minor version
 - `git_tag::String` : The version's git tag
+
+See: [iio_library_get_version](https://analogdevicesinc.github.io/libiio/master/libiio/group__TopLevel.html#gaaa29e5bac86d00a1cef6e2d00b0ea24c)
 """
 function iio_library_get_version()
     major, minor, git_tag = Ref{Cuint}(0), Ref{Cuint}(0), Vector{Cchar}(undef, 8)
@@ -25,14 +25,13 @@ end
 
 Get a string description of an error code.
 
-
-See: [iio_strerror](https://analogdevicesinc.github.io/libiio/master/libiio/group__TopLevel.html#ga4a117b0ac02e97aeda92e33c063f7cf0)
-
 # Parameters
 - `err::Int` : The error code
 
 # Returns
 - `dst::String` : The string description of the error
+
+See: [iio_strerror](https://analogdevicesinc.github.io/libiio/master/libiio/group__TopLevel.html#ga4a117b0ac02e97aeda92e33c063f7cf0)
 """
 function iio_strerror(err::Cint)
     dst = Vector{Cchar}(undef, 256)
@@ -49,13 +48,13 @@ end
 
 Check if the specified backend is available.
 
-See: [iio_has_backend](https://analogdevicesinc.github.io/libiio/master/libiio/group__TopLevel.html#ga8cf6a3818d471333f4115f3d0d8d95a2)
-
 # Parameters
 - `backend::String` : The name of the backend to query
 
 # Returns
 - True if the backend is available, false otherwise
+
+See: [iio_has_backend](https://analogdevicesinc.github.io/libiio/master/libiio/group__TopLevel.html#ga8cf6a3818d471333f4115f3d0d8d95a2)
 """
 function iio_has_backend(backend::String)
     return convert(Bool,
@@ -70,10 +69,10 @@ end
 
 Get the number of available backends.
 
-See: [iio_get_backends_count](https://analogdevicesinc.github.io/libiio/master/libiio/group__TopLevel.html#gabe08d9f1e10801b0334575063a66a56c)
-
 # Returns
 - The number of available backends
+
+See: [iio_get_backends_count](https://analogdevicesinc.github.io/libiio/master/libiio/group__TopLevel.html#gabe08d9f1e10801b0334575063a66a56c)
 """
 function iio_get_backends_count()
     return ccall((:iio_get_backends_count, libiio),
@@ -85,14 +84,14 @@ end
 
 Retrieve the name of a given backend.
 
-See: [iio_get_backend](https://analogdevicesinc.github.io/libiio/master/libiio/group__TopLevel.html#ga0b950d578c5e4e06232949159c491dab)
-
 # Parameters
 - `index` : The index corresponding to the attribute
 
 # Returns:
 - On success, a string containing the backend
 - If the index is invalid, an empty string is returned
+
+See: [iio_get_backend](https://analogdevicesinc.github.io/libiio/master/libiio/group__TopLevel.html#ga0b950d578c5e4e06232949159c491dab)
 """
 function iio_get_backend(index::Cuint)
     out = ccall((:iio_get_backend, libiio),

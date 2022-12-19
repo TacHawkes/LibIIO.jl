@@ -45,9 +45,10 @@ attrs(d::AbstractDeviceOrTrigger) = device_or_trigger(d).attrs
 debug_attrs(d::AbstractDeviceOrTrigger) = device_or_trigger(d).debug_attrs
 buffer_attrs(d::AbstractDeviceOrTrigger) = device_or_trigger(d).buffer_attrs
 function channels(d::AbstractDeviceOrTrigger)
-    chns = [Channel(device_or_trigger(d),
-                    _get_channel(device_or_trigger(d).device, convert(Cuint, x - 1)))
-            for x in 1:_channels_count(device_or_trigger(d).device)]
+    _dt = device_or_trigger(d)
+    chns = [Channel(_dt,
+                    _get_channel(_dt.device, convert(Cuint, x - 1)))
+            for x in 1:_channels_count(_dt.device)]
     sort!(chns, by = x -> id(x))
 
     return chns
@@ -94,15 +95,7 @@ function show(io::IO, dev::AbstractDeviceOrTrigger)
 
         j = 0
         for (_name, attr) in attrs(dev)
-            ret, value = read(attr)
-            print(io, "\t\t\t\tattr $j: $_name ")
-
-            if ret > 0
-                println(io, "value: $value")
-            else
-                err_str = iio_strerror(-ret)
-                println(io, "ERROR: $err_str")
-            end
+            show(io, attr, j)
 
             j += 1
         end
@@ -114,15 +107,7 @@ function show(io::IO, dev::AbstractDeviceOrTrigger)
 
         j = 0
         for (_name, attr) in buffer_attrs(dev)
-            ret, value = read(attr)
-            print(io, "\t\t\t\tattr $j: $_name ")
-
-            if ret > 0
-                println(io, "value: $value")
-            else
-                err_str = iio_strerror(-ret)
-                println(io, "ERROR: $err_str")
-            end
+            show(io, attr, j)
 
             j += 1
         end
@@ -134,15 +119,7 @@ function show(io::IO, dev::AbstractDeviceOrTrigger)
 
         j = 0
         for (_name, attr) in debug_attrs(dev)
-            ret, value = read(attr)
-            print(io, "\t\t\t\tattr $j: $_name ")
-
-            if ret > 0
-                println(io, "value: $value")
-            else
-                err_str = iio_strerror(-ret)
-                println(io, "ERROR: $err_str")
-            end
+            show(io, attr, j)
 
             j += 1
         end

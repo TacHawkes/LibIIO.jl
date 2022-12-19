@@ -1,20 +1,57 @@
 #=
 Empty structs for C pointers
 =#
-mutable struct iio_scan_context
-    function iio_scan_context()
-        ctx = new()
-        finalizer(x -> iio_scan_context_destroy(pointer(x)), ctx)
-    end
-end
+mutable struct iio_scan_context end
 mutable struct iio_scan_block end
+
+"""
+The information related to a discovered context
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/structiio__context__info.html#details)
+"""
 mutable struct iio_context_info end
+
+"""
+Contains the representation of an IIO context
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/structiio__context.html#details)
+"""
 mutable struct iio_context end
+
+"""
+Represents a device in the IIO context
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/structiio__device.html#details)
+"""
 mutable struct iio_device end
+
+"""
+Represents an input or output channel of a device
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/structiio__channel.html#details)
+"""
 mutable struct iio_channel end
+
+"""
+An input or output buffer, used to read or write samples
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/structiio__buffer.html#details)
+"""
 mutable struct iio_buffer end
 
 """
+Containts the format of a data sample.
+
+# Data Fields
+- `length::Cuint` : Total length of the sample in bits
+- `bits::Cuint` : Length of the valuable data in the samples, in bits
+- `shift:Cuint` : Right-shift to apply when converting sample
+- `is_signed::Cuchar` : Contains true if the sample is signed
+- `is_fully_defined::Cuchar` : Contains true if the sample is fully defoned, sign extended, etc.
+- `is_be::Cuchar` : Contains true if the sample is in big-endian format
+- `with_scale::Cuchar` : Contains true if the sample should be scaled or converted
+- `scale::Cdouble` : Contains the scale to apply if `with_scale` is set
+- `repeat::Cuint` : Numver of times length repeats
 
 See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/structiio__data__format.html)
 """
