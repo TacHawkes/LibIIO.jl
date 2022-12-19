@@ -15,7 +15,7 @@ end
 Initializes a new instance of a ChannelAttr.
 
 # Parameters
-- `chn::Ptr{iio_channel}` : A valid pointer to an iio_channel
+- `chn::Ptr{iio_channel}` : A valid pointer to an [`iio_channel`](@ref)
 - `name::String` : The channel attribute's name
 
 # Returns
@@ -229,7 +229,7 @@ index(chn::Channel) = _channel_get_index(chn.channel)
 """
     data_format(chn::Channel)::iio_data_format
 
-Returns the channel data format as a C-struct.
+Returns the channel data format as a C-struct. See [`iio_data_format`](@ref).
 """
 data_format(chn::Channel) = _channel_get_data_format(chn.channel)
 

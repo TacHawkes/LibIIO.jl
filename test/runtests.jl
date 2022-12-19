@@ -5,7 +5,7 @@ using Test
     # Write your tests here.
 end
 
-ctx = LibIIO.Context("ip:192.168.64.2")
+ctx = Context("ip:192.168.64.2")
 
 dac = find_device(ctx, "dac_demo")
 adc = find_device(ctx, "adc_demo")
@@ -26,7 +26,7 @@ y = round.(Int16, 10000*sin.(2π*1/200*(1:400)))
 ##
 write(dac_buf, y)
 
-LibIIO.push(dac_buf)
+push(dac_buf)
 
 adc_buf = LibIIO.Buffer(
     adc,

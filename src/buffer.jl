@@ -16,7 +16,7 @@ end
 Initializes a new Buffer instance.
 
 # Parameters
-- `device::AbstractDeviceOrTrigger` :  A device instance (either device or trigger) to which the buffer belongs
+- `device::AbstractDeviceOrTrigger` :  A device instance (either [`Device`](@ref) or [`Trigger`](@ref) to which the buffer belongs
 - `samples_count` : The size of the buffer in samples
 - `cyclic` : If set to true, the buffer is circular
 """
@@ -128,7 +128,7 @@ set_blocking_mode(buf::Buffer, blocking) = _buffer_set_blocking_mode(buf.buffer,
 """
     device(buf::Buffer)
 
-Device for the buffer.
+[`Device`](@ref) for the buffer.
 """
 device(buf::Buffer) = buf.dev
 

@@ -40,7 +40,7 @@ See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/structiio__
 mutable struct iio_buffer end
 
 """
-Containts the format of a data sample.
+Contains the format of a data sample.
 
 # Data Fields
 - `length::Cuint` : Total length of the sample in bits
