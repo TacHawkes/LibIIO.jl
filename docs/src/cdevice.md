@@ -27,5 +27,4 @@ iio_device_attr_read_longlong
 iio_device_attr_read_double
 iio_device_attr_write
 iio_device_attr_write_raw
-iio_device_attr_write_all
 ```

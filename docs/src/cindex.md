@@ -1,9 +1,8 @@
-```@index
+```@meta
+CurrentModule = LibIIO
 ```
 
-```@docs
-iio_modifier
-iio_chan_type
+```@index
 ```
 
 ```@autodocs
