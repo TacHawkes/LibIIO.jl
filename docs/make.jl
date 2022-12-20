@@ -14,12 +14,16 @@ makedocs(;
     ),
     pages=[
         "Home" => "index.md",
-        "Examples" => "examples.md",
-        "Context" => "context.md",
-        "Devices" => "device.md",
-        "Channel" => "channel.md",
-        "Buffer" => "buffer.md",
-        "Low-level libiio access" => [
+        "Examples" => [
+            "IIO Demo" => "iio_demo.md"
+        ],
+        "High-level libiio bindings" => [
+            "Context" => "context.md",
+            "Devices" => "device.md",
+            "Channel" => "channel.md",
+            "Buffer" => "buffer.md",
+        ],
+        "Low-level libiio access (for advanced users)" => [
             "Overview" => "cindex.md",
             "Functions for scanning available contexts" => "cscan.md",
             "Top-level functions" => "ctoplevel.md",

@@ -7,8 +7,9 @@ Create a context from local or remote IIO devices.
 - On success, a pointer to an [`iio_context`](@ref) structure
 - On failure, an error is raised
 
-**NOTE:** This function will create a context with the URI provided in the IIOD_REMOTE
-          environment variable. If not set, a local context will be created instead.
+!!! note
+    This function will create a context with the URI provided in the IIOD_REMOTE
+    environment variable. If not set, a local context will be created instead.
 
 See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Context.html#ga21076125f817a680e0c01d4a490f0416)
 """
@@ -47,7 +48,8 @@ Create a context from a XML file.
 - On success, a pointer to an [`iio_context`](@ref) structure
 - On failure, an error is raised
 
-**NOTE:** The format of the XML must comply to the one returned by iio_context_get_xml.
+!!! note
+    The format of the XML must comply to the one returned by iio_context_get_xml.
 
 See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Context.html#ga9925a84e596c3003e30b1cdd2b65d029)
 """
@@ -71,7 +73,8 @@ Create a context from a XML data in memory.
 - On success, a pointer to an [`iio_context`](@ref)
 - On failure, an error is raised
 
-**NOTE:** The format of the XML must comply to the one returned by iio_context_get_xml.
+!!! note
+    The format of the XML must comply to the one returned by iio_context_get_xml.
 
 See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Context.html#gabaa848ca554af5723a44b9b7fd0ba6a3)
 """
@@ -115,42 +118,43 @@ Create a context from an URI description.
 - On success, a pointer to an [`iio_context`](@ref) structure
 - On failure, an error is raised
 
-**NOTE:** The following URIs are supported based on compile time backend support:
+!!! note
+    The following URIs are supported based on compile time backend support:
 
-- Local backend, "local:"
-  Does not have an address part. For example "local:"
-- XML backend, "xml:"
-  Requires a path to the XML file for the address part. For example "xml:/home/user/file.xml"
-- Network backend, "ip:"
-  Requires a hostname, IPv4, or IPv6 to connect to a specific running IIO Daemon or
-  no address part for automatic discovery when library is compiled with ZeroConf support.
-  For example "ip:192.168.2.1", or "ip:localhost", or "ip:" or "ip:plutosdr.local".
-  To support alternative port numbers the standard ip:host:port format is used.
-  A special format is required as defined in RFC2732 for IPv6 literal hostnames,
-  (adding '[]' around the host) to use a ip:[x:x:x:x:x:x:x:x]:port format.
-  Valid examples would be:
-    - ip: Any host on default port
-    - ip::40000 Any host on port 40000
-    - ip:analog.local Default port
-    - ip:brain.local:40000 Port 40000
-    - ip:192.168.1.119 Default Port
-    - ip:192.168.1.119:40000 Port 40000
-    - ip:2601:190:400:da:47b3:55ab:3914:bff1 Default Port
-    - ip:[2601:190:400:da:9a90:96ff:feb5:acaa]:40000 Port 40000
-- USB backend, "usb:"
-  When more than one usb device is attached, requires bus, address, and interface parts
-  separated with a dot. For example "usb:3.32.5". Where there is only one USB device attached,
-  the shorthand "usb:" can be used.
-- Serial backend, "serial:"
-  Requires:
-    - a port (/dev/ttyUSB0),
-    - baud_rate (default 115200)
-    - serial port configuration
-        - data bits (5 6 7 8 9)
-        - parity ('n' none, 'o' odd, 'e' even, 'm' mark, 's' space)
-        - stop bits (1 2)
-        - flow control ('\0' none, 'x' Xon Xoff, 'r' RTSCTS, 'd' DTRDSR)
-  For example "serial:/dev/ttyUSB0,115200" or "serial:/dev/ttyUSB0,115200,8n1"
+    - Local backend, "local:"
+      Does not have an address part. For example "local:"
+    - XML backend, "xml:"
+      Requires a path to the XML file for the address part. For example "xml:/home/user/file.xml"
+    - Network backend, "ip:"
+      Requires a hostname, IPv4, or IPv6 to connect to a specific running IIO Daemon or
+      no address part for automatic discovery when library is compiled with ZeroConf support.
+      For example "ip:192.168.2.1", or "ip:localhost", or "ip:" or "ip:plutosdr.local".
+      To support alternative port numbers the standard ip:host:port format is used.
+      A special format is required as defined in RFC2732 for IPv6 literal hostnames,
+      (adding '[]' around the host) to use a ip:[x:x:x:x:x:x:x:x]:port format.
+      Valid examples would be:
+        - ip: Any host on default port
+        - ip::40000 Any host on port 40000
+        - ip:analog.local Default port
+        - ip:brain.local:40000 Port 40000
+        - ip:192.168.1.119 Default Port
+        - ip:192.168.1.119:40000 Port 40000
+        - ip:2601:190:400:da:47b3:55ab:3914:bff1 Default Port
+        - ip:[2601:190:400:da:9a90:96ff:feb5:acaa]:40000 Port 40000
+    - USB backend, "usb:"
+      When more than one usb device is attached, requires bus, address, and interface parts
+      separated with a dot. For example "usb:3.32.5". Where there is only one USB device attached,
+      the shorthand "usb:" can be used.
+    - Serial backend, "serial:"
+      Requires:
+        - a port (/dev/ttyUSB0),
+        - baud_rate (default 115200)
+        - serial port configuration
+            - data bits (5 6 7 8 9)
+            - parity ('n' none, 'o' odd, 'e' even, 'm' mark, 's' space)
+            - stop bits (1 2)
+            - flow control ('\0' none, 'x' Xon Xoff, 'r' RTSCTS, 'd' DTRDSR)
+      For example "serial:/dev/ttyUSB0,115200" or "serial:/dev/ttyUSB0,115200,8n1"
 
 See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Context.html#gafdcee40508700fa395370b6c636e16fe)
 """
@@ -173,9 +177,10 @@ Duplicate a pre-existing IIO context.
 - On success, a pointer to an [`iio_context`](@ref) structure
 - On failure, an error is raised
 
-**NOTE:** This function is not supported on 'usb:' contexts, since libusb can only claim the
-          interface once. "Function not implemented" is the expected errno. Any context
-          which is cloned, must be destroyed via calling [`iio_context_destroy()`](@ref)
+!!! note
+    This function is not supported on 'usb:' contexts, since libusb can only claim the
+    interface once. "Function not implemented" is the expected errno. Any context
+    which is cloned, must be destroyed via calling [`iio_context_destroy()`](@ref)
 
 See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Context.html#ga1815e7c39b9a69aa11cf948b0433df01)
 """
@@ -194,7 +199,8 @@ Destroy the given context.
 # Parameters
 - `ctx::Ptr{iio_context}` : A pointer to an [`iio_context`](@ref) structure
 
-**NOTE:** After that function, the iio_context pointer shall be invalid.
+!!! note
+    After that function, the iio_context pointer shall be invalid.
 
 See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Context.html#ga75de8dae515c539818e52b408830d3ba)
 """
@@ -261,8 +267,9 @@ Get the name of the given context.
 # Returns
 - A `String` containing the name
 
-**NOTE:** The returned string will be local, xml or network when the context has been
-          created with the local, xml and network backends respectively.
+!!! note
+    The returned string will be local, xml or network when the context has been
+    created with the local, xml and network backends respectively.
 
 See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Context.html#gafed8e036873ad6f70c3db92c7136ad31)
 """
@@ -284,7 +291,8 @@ Get a description of the given context.
 # Returns
 - A `String` containing the description
 
-**NOTE:** The returned string will contain human-readable information about the current context.
+!!! note
+    The returned string will contain human-readable information about the current context.
 
 See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Context.html#ga5591da0927887e88be4ef7d670cb60a9)
 """

@@ -1,3 +1,6 @@
+```@index
+```
+
 
 ```@autodocs
 Modules = [LibIIO.CLibIIO]

@@ -11,15 +11,16 @@ Create a scan context.
 - on success, a pointer to a `iio_scan_context` structure
 - On failure, an error is raised
 
-NOTE:   Libiio version 0.20 and above can handle multiple strings,
-        for instance "local:usb:", "ip:usb:", "local:usb:ip:",
-        and require a colon as the delimiter. Libiio version 0.24
-        and above prefer a comma instead of colon as the delimiter,
-        and handle specifying backend-specific information. For instance,
-         "local,usb=0456:*" will scan the local backend and limit scans on
-        USB to vendor ID 0x0456, and accept all product IDs. The "usb=0456:b673"
-        string would limit the scan to the device with this particular VID/PID.
-        Both IDs are expected in hexadecimal, no 0x prefix needed.
+!!! note
+    Libiio version 0.20 and above can handle multiple strings,
+    for instance "local:usb:", "ip:usb:", "local:usb:ip:",
+    and require a colon as the delimiter. Libiio version 0.24
+    and above prefer a comma instead of colon as the delimiter,
+    and handle specifying backend-specific information. For instance,
+     "local,usb=0456:*" will scan the local backend and limit scans on
+    USB to vendor ID 0x0456, and accept all product IDs. The "usb=0456:b673"
+    string would limit the scan to the device with this particular VID/PID.
+    Both IDs are expected in hexadecimal, no 0x prefix needed.
 """
 function iio_create_scan_context(backend::String, flags::Cuint = Cuint(0))
     _backend = isempty(backend) ? C_NULL : backend
@@ -37,7 +38,8 @@ Destroy the given scan context.
 # Parameters
 - `ctx::Ptr{iio_scan_context}` : A pointer to an `iio_scan_context`  structure
 
-**NOTE:** After that function, the `iio_scan_context`  pointer shall be invalid.
+!!! note
+    After that function, the `iio_scan_context`  pointer shall be invalid.
 
 See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Scan.html#ga649d7821636c744753067e8301a84e6d)
 """
@@ -160,7 +162,8 @@ Destroy the given scan block.
 # Parameters
 - `blk::Ptr{iio_scan_block}` : A pointer to an `iio_scan_block`  structure
 
-**NOTE:** After that function, the iio_scan_block pointer shall be invalid.
+!!! note
+    After that function, the iio_scan_block pointer shall be invalid.
 
 Introduced in version 0.20.
 

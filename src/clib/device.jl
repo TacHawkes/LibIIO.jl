@@ -1,5 +1,15 @@
 """
     iio_device_get_context(dev)
+
+Retrieve a pointer to the [`iio_context`](@ref) structure.
+
+# Parameters
+- `dev::Ptr{iio_device}` : A pointer to an [`iio_device`](@ref) structure
+
+# Returns
+- A pointer to an [`iio_context`](@ref)
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Device.html#gacc7d7b43ca5a1e228ef4c3a4952195fd)
 """
 function iio_device_get_context(dev::Ptr{iio_device})
     return ccall((:iio_device_get_context, libiio),
@@ -8,6 +18,19 @@ function iio_device_get_context(dev::Ptr{iio_device})
                  dev)
 end
 
+"""
+    iio_device_get_id(dev)
+
+Retrieve the device ID (e.g. **iio:device0**)
+
+# Parameters
+- `dev::Ptr{iio_device}` : A pointer to an [`iio_device`](@ref) structure
+
+# Returns
+- A string containing the id
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Device.html#ga9e6610c3dd7cc45bebcc7ed7a1b064c6)
+"""
 function iio_device_get_id(dev::Ptr{iio_device})
     return unsafe_string(ccall((:iio_device_get_id, libiio),
                                Cstring,
@@ -15,6 +38,22 @@ function iio_device_get_id(dev::Ptr{iio_device})
                                dev))
 end
 
+"""
+    iio_device_get_name(dev)
+
+Retrieve the device name (e.g. `xadc`)
+
+# Parameters
+- `dev::Ptr{iio_device}` : A pointer to an [`iio_device`](@ref) structure
+
+# Returns
+- A string containing the name
+
+!!! note
+    If the device has no name, an empty string is returned
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Device.html#ga711666b3b3b6314fbe7e592b4632ab85)
+"""
 function iio_device_get_name(dev::Ptr{iio_device})
     name = ccall((:iio_device_get_name, libiio),
                  Cstring,
@@ -23,6 +62,22 @@ function iio_device_get_name(dev::Ptr{iio_device})
     return name != C_NULL ? unsafe_string(name) : ""
 end
 
+"""
+    iio_device_get_label(dev)
+
+Retrieve the device label (e.g. `lo_pll0_rx_adf4351`)
+
+# Parameters
+- `dev::Ptr{iio_device}` : A pointer to an [`iio_device`](@ref) structure
+
+# Returns
+- A string containing the label
+
+!!! note
+    If the device has no label, an empty string is returned
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Device.html#gaa7dfffe6431d1f36abf523470e866641)
+"""
 function iio_device_get_label(dev::Ptr{iio_device})
     label = ccall((:iio_device_get_label, libiio),
                   Cstring,
@@ -31,6 +86,19 @@ function iio_device_get_label(dev::Ptr{iio_device})
     label != C_NULL ? unsafe_string(label) : ""
 end
 
+"""
+    iio_device_get_channels_count(dev)
+
+Enumerate the channels of the given device.
+
+# Parameters
+- `dev::Ptr{iio_device}` : A pointer to an [`iio_device`](@ref) structure
+
+# Returns
+- The number of channels found
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Device.html#gae10ff440f64dac52b4229eb3f2ebea76)
+"""
 function iio_device_get_channels_count(dev::Ptr{iio_device})
     return ccall((:iio_device_get_channels_count, libiio),
                  Cuint,
@@ -38,6 +106,19 @@ function iio_device_get_channels_count(dev::Ptr{iio_device})
                  dev)
 end
 
+"""
+    iio_device_get_attrs_count(dev)
+
+Enumerate the device-specific attributes of the given device.
+
+# Parameters
+- `dev::Ptr{iio_device}` : A pointer to an [`iio_device`](@ref) structure
+
+# Returns
+- The number of device-specific attributes found
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Device.html#ga36c2d0f703a803f44a578bc83fdab6a0)
+"""
 function iio_device_get_attrs_count(dev::Ptr{iio_device})
     return ccall((:iio_device_get_attrs_count, libiio),
                  Cuint,
@@ -45,6 +126,19 @@ function iio_device_get_attrs_count(dev::Ptr{iio_device})
                  dev)
 end
 
+"""
+    iio_device_get_buffer_attrs_count(dev)
+
+Enumerate the buffer-specific attributes of the given device.
+
+# Parameters
+- `dev::Ptr{iio_device}` : A pointer to an [`iio_device`](@ref) structure
+
+# Returns
+- The number of buffer-specific attributes found
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Device.html#ga6d4bd3c4f9791c706d9baa4454e0f1d3)
+"""
 function iio_device_get_buffer_attrs_count(dev::Ptr{iio_device})
     return ccall((:iio_device_get_buffer_attrs_count, libiio),
                  Cuint,
@@ -52,6 +146,21 @@ function iio_device_get_buffer_attrs_count(dev::Ptr{iio_device})
                  dev)
 end
 
+"""
+    iio_device_get_channel(dev, index)
+
+Get the channel present at the given index.
+
+# Parameters
+- `dev::Ptr{iio_device}` : A pointer to an [`iio_device`](@ref) structure
+- `index::Cuint` : The index corresponding to the channel
+
+# Returns
+- On success, a pointer to an [`iio_channel`](@ref)
+- If the index is invalid, an error is raised
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Device.html#ga67289d735b7d8e1ed12ae0ea642bd1ac)
+"""
 function iio_device_get_channel(dev::Ptr{iio_device}, index::Cuint)
     return @check_null ccall((:iio_device_get_channel, libiio),
                              Ptr{iio_channel},
@@ -59,6 +168,21 @@ function iio_device_get_channel(dev::Ptr{iio_device}, index::Cuint)
                              dev, index)
 end
 
+"""
+    iio_device_get_attr(dev, index)
+
+Get the device-specific attribute present at the given index.
+
+# Parameters
+- `dev::Ptr{iio_device}` : A pointer to an [`iio_device`](@ref) structure
+- `index::Cuint` : The index corresponding to the attribute
+
+# Returns
+- On success, a string containing the attribute name
+- If the index is invalid, an empty string will be returned
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Device.html#ga70b03d4cb3cc3c4fb1b6451764c8ccec)
+"""
 function iio_device_get_attr(dev::Ptr{iio_device}, index::Cuint)
     attr = ccall((:iio_device_get_attr, libiio),
                  Cstring,
@@ -68,6 +192,21 @@ function iio_device_get_attr(dev::Ptr{iio_device}, index::Cuint)
     return attr != C_NULL ? unsafe_string(attr) : ""
 end
 
+"""
+    iio_device_get_buffer_attr(dev, index)
+
+Get the buffer-specific attribute present at the given index.
+
+# Parameters
+- `dev::Ptr{iio_device}` : A pointer to an [`iio_device`](@ref) structure
+- `index::Cuint` : The index corresponding to the attribute
+
+# Returns
+- On success, a string containing the attribute name
+- If the index is invalid, an empty string will be returned
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Device.html#ga7225b9df06559012d549d627fb451c2a)
+"""
 function iio_device_get_buffer_attr(dev::Ptr{iio_device}, index::Cuint)
     attr = ccall((:iio_device_get_buffer_attr, libiio),
                  Cstring,
@@ -77,6 +216,22 @@ function iio_device_get_buffer_attr(dev::Ptr{iio_device}, index::Cuint)
     return attr != C_NULL ? unsafe_string(attr) : ""
 end
 
+"""
+    iio_device_find_channel(dev, name, output)
+
+Try to find a channel structure by its name or ID.
+
+# Parameters
+- `dev::Ptr{iio_device}` : A pointer to an [`iio_device`](@ref) structure
+- `name::String` : A string corresponding to the name or ID of the channel to search for
+- `output::Bool` : True if the searched channel is output, false otherwise
+
+# Returns
+- On success, a pointer to an [`iio_channel`](@ref) structure
+- If the name or ID does not correspond to any known channel of the given device, an error is raised
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Device.html#gaffc6086189ba801ab5e95341d68f882b)
+"""
 function iio_device_find_channel(dev::Ptr{iio_device}, name::String, output::Bool)
     return @check_null ccall((:iio_device_find_channel, libiio),
                              Ptr{iio_channel},
@@ -84,6 +239,24 @@ function iio_device_find_channel(dev::Ptr{iio_device}, name::String, output::Boo
                              dev, name, output)
 end
 
+"""
+    iio_device_find_attr(dev, name)
+
+Try to find a device-specific attribute by its name.
+
+# Parameters
+- `dev::Ptr{iio_device}` : A pointer to an [`iio_device`](@ref) structure
+- `name::String` : A string corresponding to the name of the attribute
+
+# Returns
+- On succes, a string containing the attribute name
+- If the name does not correspond to any know aatribute of the device, an empty string is returned
+
+!!! note
+    This function is useful to detect the presence of an attribute.
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Device.html#gafcbece1ac6260b06bcdf02d9eb55e5fd)
+"""
 function iio_device_find_attr(dev::Ptr{iio_device}, name::String)
     attr = ccall((:iio_device_find_attr, libiio),
                  Cstring,
@@ -93,6 +266,24 @@ function iio_device_find_attr(dev::Ptr{iio_device}, name::String)
     return attr != C_NULL ? unsafe_string(attr) : ""
 end
 
+"""
+    iio_device_find_buffer_attr(dev, name)
+
+Try to find a buffer-specific attribute by its name.
+
+# Parameters
+- `dev::Ptr{iio_device}` : A pointer to an [`iio_device`](@ref) structure
+- `name::String` : A string corresponding to the name of the attribute
+
+# Returns
+- On succes, a string containing the attribute name
+- If the name does not correspond to any know aatribute of the device, an empty string is returned
+
+!!! note
+    This function is useful to detect the presence of an attribute.
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Device.html#ga58baa15da06b2d497fb0334f35264240)
+"""
 function iio_device_find_buffer_attr(dev::Ptr{iio_device}, name::String)
     attr = ccall((:iio_device_find_buffer_attr, libiio),
                  Cstring,
@@ -102,9 +293,29 @@ function iio_device_find_buffer_attr(dev::Ptr{iio_device}, name::String)
     return attr != C_NULL ? unsafe_string(attr) : ""
 end
 
+"""
+    iio_device_attr_read(dev, attr)
+
+Read the content of the given device-specific attribute.
+
+# Parameters
+- `dev::Ptr{iio_device}` : A pointer to an [`iio_device`](@ref) structure
+- `attr::String` : A string corresponding to the name of the attribute
+
+# Returns
+- On success, a Vector of Tuples of attribute index and value if
+  `attr` is an empty string, otherwise a string with the attribute value.
+- On error, a negative errno code is returned
+
+!!! note
+    By an empty string as the "attr" argument to iio_device_attr_read, it is now
+    possible to read all of the attributes of a device.
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Device.html#gaf0233eb0ef4a64ad70ebaef6328b0494)
+"""
 function iio_device_attr_read(dev::Ptr{iio_device}, attr::String)
     attr == "" && (attr = C_NULL)
-    dst = Vector{Cchar}(undef, BUF_SIZE)
+    dst = Vector{Cuchar}(undef, BUF_SIZE)
     ret = ccall((:iio_device_attr_read, libiio),
                 Cssize_t,
                 (Ptr{iio_device}, Cstring, Cstring, Csize_t),
@@ -114,6 +325,26 @@ function iio_device_attr_read(dev::Ptr{iio_device}, attr::String)
     return ret, attrs
 end
 
+"""
+    iio_device_attr_read_all(dev, cb::Ptr{Cvoid}, data)
+
+Read the content of all device-specific attributes.
+
+# Parameters
+- `dev::Ptr{iio_device}` : A pointer to an [`iio_device`](@ref) structure
+- `cb::Ptr{Cvoid}` : A pointer to a callback function
+- `data::Ptr{Cvoid}` : A pointer that will be passed to the callback function
+
+# Returns
+- On success, 0 is returned
+- On error, a negative errno code is returned
+
+!!! note
+    This function is especially useful when used with the network backend,
+    as all the device-specific attributes are read in one single command.
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Device.html#ga5b1fef1333c4835942384b661f148b36)
+"""
 function iio_device_attr_read_all(dev::Ptr{iio_device}, cb::Ptr{Cvoid}, data::Ptr{Cvoid})
     return ccall((:iio_device_attr_read_all, libiio),
                  Cint,
@@ -121,6 +352,21 @@ function iio_device_attr_read_all(dev::Ptr{iio_device}, cb::Ptr{Cvoid}, data::Pt
                  dev, cb, data)
 end
 
+"""
+    iio_device_attr_read_bool(dev, attr)
+
+Read the content of the given device-specific attribute.
+
+# Parameters
+- `dev::Ptr{iio_device}` : A pointer to an [`iio_device`](@ref) structure
+- `attr::String` : A string corresponding to the name of the attribute
+
+# Returns
+- On success, 0 and the bool value is returned
+- On error, a negative errno code is returned
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Device.html#ga96364b7c7097bb8e4656924ea896a502)
+"""
 function iio_device_attr_read_bool(dev::Ptr{iio_device}, attr::String)
     value = Ref{Cuchar}(0)
     ret = ccall((:iio_device_attr_read_bool, libiio),
@@ -130,6 +376,21 @@ function iio_device_attr_read_bool(dev::Ptr{iio_device}, attr::String)
     return ret, convert(Bool, value[])
 end
 
+"""
+    iio_device_attr_read_longlong(dev, attr)
+
+Read the content of the given device-specific attribute.
+
+# Parameters
+- `dev::Ptr{iio_device}` : A pointer to an [`iio_device`](@ref) structure
+- `attr::String` : A string corresponding to the name of the attribute
+
+# Returns
+- On success, 0 and the Clonglong value is returned
+- On error, a negative errno code is returned
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Device.html#ga0f7b5d21a4e40efac68e1ece44d7ba74)
+"""
 function iio_device_attr_read_longlong(dev::Ptr{iio_device}, attr::String)
     value = Ref{Clonglong}(0)
     ret = ccall((:iio_device_attr_read_longlong, libiio),
@@ -139,6 +400,21 @@ function iio_device_attr_read_longlong(dev::Ptr{iio_device}, attr::String)
     return ret, value[]
 end
 
+"""
+    iio_device_attr_read_double(dev, attr)
+
+Read the content of the given device-specific attribute.
+
+# Parameters
+- `dev::Ptr{iio_device}` : A pointer to an [`iio_device`](@ref) structure
+- `attr::String` : A string corresponding to the name of the attribute
+
+# Returns
+- On success, 0 and the Cdouble value is returned
+- On error, a negative errno code is returned
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Device.html#gab1b150a5bfa7b1ab7fd76c538e15e4da)
+"""
 function iio_device_attr_read_double(dev::Ptr{iio_device}, attr::String)
     value = Ref{Cdouble}(0)
     ret = ccall((:iio_device_attr_read_double, libiio),
@@ -148,6 +424,34 @@ function iio_device_attr_read_double(dev::Ptr{iio_device}, attr::String)
     return ret, value[]
 end
 
+"""
+    iio_device_attr_write(dev, attr, src)
+
+Set the value of the given device-specific attribute.
+
+# Parameters
+- `dev::Ptr{iio_device}` : A pointer to an [`iio_device`](@ref) structure
+- `attr::String` : A string corresponding to the name of the attribute
+- `src::String` A string to set the attribute to
+
+# Returns
+- On success, the number of bytes written
+- On error, a negative errno code is returned
+
+!!! note
+    By passing `C_NULL` as the "attr" argument to `iio_device_attr_write`,
+    it is now possible to write all of the attributes of a device.
+
+    The buffer must contain one block of data per attribute of the device,
+    by the order they appear in the iio_device structure.
+
+    The first four bytes of one block correspond to a 32-bit signed value
+    in network order. If negative, the attribute is not written;
+    if positive, it corresponds to the length of the data to write.
+    In that case, the rest of the block must contain the data.
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Device.html#gaaa2d1867c15ef8f8424164d0ccea4dd8)
+"""
 function iio_device_attr_write(dev::Ptr{iio_device}, attr::String, src::String)
     return ccall((:iio_device_attr_write, libiio),
                  Cssize_t,
@@ -155,6 +459,23 @@ function iio_device_attr_write(dev::Ptr{iio_device}, attr::String, src::String)
                  dev, attr, src)
 end
 
+"""
+    iio_device_attr_write_raw(dev, attr, src, len)
+
+Set the value of the given device-specific attribute.
+
+# Parameters
+- `dev::Ptr{iio_device}` : A pointer to an [`iio_device`](@ref) structure
+- `attr::String` : A string corresponding to the name of the attribute
+- `src::Ptr{Cvoid}` : A pointer to the data to be written
+- `len::Csize_t` : The number of bytes that should be written
+
+# Returns
+- On success, the number of bytes written
+- On error, a negative errno code is returned
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Device.html#ga30829a67dcdffc902c4ba6801233e79a)
+"""
 function iio_device_attr_write_raw(dev::Ptr{iio_device}, attr::String, src::Ptr{Cvoid},
                                    len::Csize_t)
     return ccall((:iio_device_attr_write_raw, libiio),

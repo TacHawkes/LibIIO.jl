@@ -40,6 +40,8 @@ See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/structiio__
 mutable struct iio_buffer end
 
 """
+    iio_data_format
+
 Contains the format of a data sample.
 
 # Data Fields
@@ -68,8 +70,13 @@ mutable struct iio_data_format
 end
 
 """
+    iio_modifier
 
-(https://analogdevicesinc.github.io/libiio/master/libiio/iio_8h.html#a944ad22f426e09cdbb493081a05472e5)
+IIO channel type.
+
+An IIO channel has a type specifying the type of data associated with the channel.
+
+See [libiio] (https://analogdevicesinc.github.io/libiio/master/libiio/iio_8h.html#a944ad22f426e09cdbb493081a05472e5)
 """
 @enum iio_modifier begin
     IIO_NO_MOD
@@ -125,6 +132,15 @@ end
     IIO_MOD_ROLL
 end
 
+"""
+    iio_chan_type
+
+IIO channel type
+
+An IIO channel has a type specifying the type of data associated with the channel.
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/iio_8h.html#a29714c3a5add6b599e29be0485ca548b)
+"""
 @enum iio_chan_type begin
     IIO_VOLTAGE
     IIO_CURRENT
