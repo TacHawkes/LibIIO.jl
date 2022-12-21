@@ -4,4 +4,4 @@ CurrentModule = LibIIO
 
 # LibIIO
 
-Documentation for [LibIIO](https://github.com/oliver@kliebisch.net/LibIIO.jl).
+Documentation for [LibIIO](https://github.com/tachawkes/LibIIO.jl).

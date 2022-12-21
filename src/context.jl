@@ -243,12 +243,13 @@ Scan Context.
 """
 function scan_contexts()
     scan_ctx = Dict{String, String}()
-    ptr = Ptr{Ptr{iio_context_info}}()
+    ptr = Ptr{Ptr{iio_context_info}}(0)
     ctx = _create_scan_context("")
     ctx_nb = _get_context_info_list(ctx, Ref(ptr))
-
+    @info ctx_nb
     for i in 1:ctx_nb
-        scan_ctx[_context_info_get_uri(unsafe_load(ptr, i))] = _context_info_get_description(unsafe_load(ptr, i))
+        info = unsafe_load(ptr[], i)
+        scan_ctx[_context_info_get_uri(info)] = _context_info_get_description(info)
     end
 
     _context_info_list_free(ptr)

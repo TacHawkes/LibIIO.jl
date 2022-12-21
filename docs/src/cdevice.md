@@ -2,9 +2,13 @@
 CurrentModule = LibIIO.CLibIIO
 ```
 
+# Index
+
 ```@index
 Pages = ["cdevice.md"]
 ```
+
+# Documentation
 
 ```@docs
 iio_device_get_context
@@ -27,4 +31,25 @@ iio_device_attr_read_longlong
 iio_device_attr_read_double
 iio_device_attr_write
 iio_device_attr_write_raw
+iio_device_attr_write_all
+iio_device_attr_write_bool
+iio_device_attr_write_longlong
+iio_device_attr_write_double
+iio_device_buffer_attr_read
+iio_device_buffer_attr_read_all
+iio_device_buffer_attr_read_bool
+iio_device_buffer_attr_read_longlong
+iio_device_buffer_attr_read_double
+iio_device_buffer_attr_write
+iio_device_buffer_attr_write_raw
+iio_device_buffer_attr_write_all
+iio_device_buffer_attr_write_bool
+iio_device_buffer_attr_write_longlong
+iio_device_buffer_attr_write_double
+iio_device_set_data
+iio_device_get_data
+iio_device_get_trigger
+iio_device_set_trigger
+iio_device_is_trigger
+iio_device_set_kernel_buffers_count
 ```
