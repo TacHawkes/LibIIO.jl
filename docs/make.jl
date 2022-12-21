@@ -30,8 +30,8 @@ makedocs(;
             "Context" => "ccontext.md",
             "Device" => "cdevice.md",
             "Channel" => "cchannel.md",
-            #"cbuffer.md",
-            #"cdebug.md"
+            "Buffer" => "cbuffer.md",
+            "Debug" => "cdebug.md"
         ]
     ],
 )
