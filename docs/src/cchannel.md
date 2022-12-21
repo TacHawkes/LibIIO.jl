@@ -1,0 +1,45 @@
+```@meta
+CurrentModule = LibIIO.CLibIIO
+```
+
+# Index
+
+```@index
+Pages = ["cchannel.md"]
+```
+
+# Documentation
+
+```@docs
+iio_channel_get_device
+iio_channel_get_id
+iio_channel_get_name
+iio_channel_is_output
+iio_channel_is_scan_element
+iio_channel_get_attrs_count
+iio_channel_get_attr
+iio_channel_find_attr
+iio_channel_attr_get_filename
+iio_channel_attr_read
+iio_channel_attr_read_all
+iio_channel_attr_read_bool
+iio_channel_attr_read_longlong
+iio_channel_attr_read_double
+iio_channel_attr_write
+iio_channel_attr_write_raw
+iio_channel_attr_write_all
+iio_channel_attr_write_bool
+iio_channel_attr_write_longlong
+iio_channel_attr_write_double
+iio_channel_enable
+iio_channel_disable
+iio_channel_is_enabled
+iio_channel_read_raw
+iio_channel_read
+iio_channel_write_raw
+iio_channel_write
+iio_channel_set_data
+iio_channel_get_data
+iio_channel_get_type
+iio_channel_get_modifier
+```

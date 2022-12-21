@@ -29,7 +29,7 @@ makedocs(;
             "Top-level functions" => "ctoplevel.md",
             "Context" => "ccontext.md",
             "Device" => "cdevice.md",
-            #"cchannel.md",
+            "Channel" => "cchannel.md",
             #"cbuffer.md",
             #"cdebug.md"
         ]

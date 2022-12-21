@@ -308,7 +308,7 @@ Read the content of the given device-specific attribute.
 - On error, a negative errno code is returned
 
 !!! note
-    By an empty string as the "attr" argument to iio_device_attr_read, it is now
+    By an empty string as the "attr" argument to [`iio_device_attr_read`](@ref), it is now
     possible to read all of the attributes of a device.
 
 See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Device.html#gaf0233eb0ef4a64ad70ebaef6328b0494)
@@ -326,7 +326,7 @@ function iio_device_attr_read(dev::Ptr{iio_device}, attr::String)
 end
 
 """
-    iio_device_attr_read_all(dev, cb::Ptr{Cvoid}, data)
+    iio_device_attr_read_all(dev, cb, data)
 
 Read the content of all device-specific attributes.
 
@@ -439,7 +439,7 @@ Set the value of the given device-specific attribute.
 - On error, a negative errno code is returned
 
 !!! note
-    By passing `C_NULL` as the "attr" argument to `iio_device_attr_write`,
+    By passing `C_NULL` as the "attr" argument to [`iio_device_attr_write`](@ref),
     it is now possible to write all of the attributes of a device.
 
     The buffer must contain one block of data per attribute of the device,
@@ -595,7 +595,7 @@ Read the content of the given buffer-specific attribute.
 - On error, a negative errno code is returned
 
 !!! note
-    By an empty string as the "attr" argument to `iio_device_buffer_attr_read``, it is now
+    By an empty string as the "attr" argument to [`iio_device_buffer_attr_read`](@ref), it is now
     possible to read all of the buffer attributes of a device.
 
 See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Device.html#gaa77d52bb9dea248cc3de682778a08a6f)
@@ -727,7 +727,7 @@ Set the value of the given buffer-specific attribute.
 - On error, a negative errno code is returned
 
 !!! note
-    By passing `C_NULL` as the "attr" argument to `iio_device_buffer_attr_write`,
+    By passing `C_NULL` as the "attr" argument to [`iio_device_buffer_attr_write`](@ref),
     it is now possible to write all of the attributes of a device.
 
     The buffer must contain one block of data per attribute of the device,
