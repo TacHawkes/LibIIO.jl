@@ -613,7 +613,7 @@ function iio_device_buffer_attr_read(dev::Ptr{iio_device}, attr::String)
 end
 
 """
-    iio_device_buffer_attr_read_all(dev, cb::Ptr{Cvoid}, data)
+    iio_device_buffer_attr_read_all(dev, cb, data)
 
 Read the content of all buffer-specific attributes.
 
@@ -776,7 +776,7 @@ end
 """
     iio_device_buffer_attr_write_all(dev, cb, data)
 
-Set the values of all buffer-specifc attributes.
+Set the values of all buffer-specific attributes.
 
 # Parameters
 - `dev::Ptr{iio_device}` : A pointer to an [`iio_device`](@ref) structure

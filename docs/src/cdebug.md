@@ -1,0 +1,36 @@
+```@meta
+CurrentModule = LibIIO.CLibIIO
+```
+
+# Index
+
+```@index
+Pages = ["cdebug.md"]
+```
+
+# Documentation
+
+```@docs
+iio_device_get_sample_size
+iio_channel_get_index
+iio_channel_get_data_format
+iio_channel_convert
+iio_channel_convert_inverse
+iio_device_get_debug_attrs_count
+iio_device_get_debug_attr
+iio_device_find_debug_atr
+iio_device_debug_attr_read
+iio_device_debug_attr_read_all
+iio_device_debug_attr_write
+iio_device_debug_attr_write_raw
+iio_device_debug_attr_write_all
+iio_device_debug_attr_read_bool
+iio_device_debug_attr_read_longlong
+iio_device_debug_attr_read_double
+iio_device_debug_attr_write_bool
+iio_device_debug_attr_write_longlong
+iio_device_debug_attr_write_double
+iio_device_identify_filename
+iio_device_reg_write
+iio_device_reg_read
+```

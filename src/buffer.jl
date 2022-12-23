@@ -52,11 +52,12 @@ Fetch a new set of samples from the hardware.
 refill(buf::Buffer) = _buffer_refill(buf.buffer)
 
 """
-    push(buf::Buffer)
+    push(buf::Buffer [, samples_count])
 
 Submit the samples contained in this buffer to the hardware.
 
 # Parameters
+- `buf::Buffer` : The buffer struct
 - `samples_count` (optional) : The number of samples to submit, default = full buffer
 """
 push(buf::Buffer) = _buffer_push_partial(buf.buffer, convert(Csize_t, buf.samples_count))
