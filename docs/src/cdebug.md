@@ -18,7 +18,7 @@ iio_channel_convert
 iio_channel_convert_inverse
 iio_device_get_debug_attrs_count
 iio_device_get_debug_attr
-iio_device_find_debug_atr
+iio_device_find_debug_attr
 iio_device_debug_attr_read
 iio_device_debug_attr_read_all
 iio_device_debug_attr_write
