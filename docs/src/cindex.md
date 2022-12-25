@@ -2,6 +2,9 @@
 CurrentModule = LibIIO
 ```
 
+# [Introduction](@id clib-index)
+
+
 ```@index
 Pages = ["cindex.md"]
 ```

@@ -1,4 +1,4 @@
-# Setting up the libiio and the IIO demo project
+# [Setting up the libiio and the IIO demo project](@id iio_demo)
 
 For this example you need a linux system with [libiio](https://wiki.analog.com/resources/tools-software/linux-software/libiio) installed. Many distros have a bundled package. If you prefer to build it from source, you can follow this [build guide](https://wiki.analog.com/resources/tools-software/linux-software/libiio#building_on_the_linux_host_target).
 
@@ -187,16 +187,10 @@ enabled!(dac_chn, true)
 enabled!(adc_chn, true)
 
 # create DAC buffer with 400 samples
-dac_buf = Buffer(
-    dac,
-    400
-)
+dac_buf = Buffer(dac, 400)
 
 # create the ADC buffer for reading
-adc_buf = Buffer(
-    adc,
-    400
-)
+adc_buf = Buffer(adc, 400)
 
 # dummy signal to feed into the DAC and read back using the ADC
 y = round.(Int16, 10000*sin.(2π*1/200*(1:400)))
