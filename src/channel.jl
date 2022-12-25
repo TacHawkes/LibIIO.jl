@@ -227,7 +227,7 @@ Returns the index of the channel.
 index(chn::Channel) = _channel_get_index(chn.channel)
 
 """
-    data_format(chn::Channel)::iio_data_format
+    data_format(chn::Channel)
 
 Returns the channel data format as a C-struct. See [`iio_data_format`](@ref).
 """

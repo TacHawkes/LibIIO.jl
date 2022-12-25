@@ -3,6 +3,7 @@ CurrentModule = LibIIO
 ```
 
 ```@index
+Pages = ["context.md"]
 ```
 
 ```@autodocs

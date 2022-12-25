@@ -13,9 +13,6 @@ using LibIIO
 # Adjust to your settings
 uri = "ip:192.168.64.2"
 
-# dummy signal to feed into the DAC and read back using the ADC
-y = round.(Int16, 10000*sin.(2π*1/300*(1:400)))
-
 # create context
 ctx = Context(uri)
 
@@ -42,6 +39,9 @@ adc_buf = Buffer(
     adc,
     400
 )
+
+# dummy signal to feed into the DAC and read back using the ADC
+y = round.(Int16, 10000*sin.(2π*1/200*(1:400)))
 
 # write the test signal into the buffer
 write(dac_buf, y)
