@@ -8,14 +8,14 @@ abstract type Attr end
 
 The current value of this attribute (as string).
 """
-read(a::Attr) = error(typeof(attr), " does not support reading")
+read(a::Attr) = error(typeof(a), " does not support reading")
 
 """
     write(::Attr, value)
 
 Sets the value of the attribute to the passed value.
 """
-write(a::Attr, value) = error(typeof(attr), " does not support writing")
+write(a::Attr, value) = error(typeof(a), " does not support writing")
 
 """
     name(:Attr)

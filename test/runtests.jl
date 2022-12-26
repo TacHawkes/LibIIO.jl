@@ -5,5 +5,5 @@ using Test
 # most of the calls end up in a ccall immediately...
 
 @testset "LibIIO.jl" begin
-    # Write your tests here.
+    @test_throws "Function not implemented" Context()
 end

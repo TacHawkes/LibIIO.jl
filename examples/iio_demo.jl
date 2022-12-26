@@ -29,16 +29,10 @@ enabled!(dac_chn, true)
 enabled!(adc_chn, true)
 
 # create DAC buffer with 400 samples
-dac_buf = Buffer(
-    dac,
-    400
-)
+dac_buf = Buffer(dac, 400)
 
 # create the ADC buffer for reading
-adc_buf = Buffer(
-    adc,
-    400
-)
+adc_buf = Buffer(adc, 400)
 
 # dummy signal to feed into the DAC and read back using the ADC
 y = round.(Int16, 10000*sin.(2π*1/200*(1:400)))
