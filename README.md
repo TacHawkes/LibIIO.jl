@@ -13,10 +13,10 @@ give you an easy-to-use high-level API interface matching the [Python-bindings](
 
 ## Installation
 
-The package is not yet registered. For now use:
+Install the package using:
 
 ```julia
-] add https://github.com/TacHawkes/LibIIO.jl
+] add LibIIO
 ```
 
 ## Example

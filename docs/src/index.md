@@ -8,10 +8,10 @@ LibIIO.jl provides Julia bindings for [libiio](https://wiki.analog.com/resources
 
 # Installation
 
-The package is not yet registered. For now use:
+Install the packing using the package manager with:
 
 ```julia
-] add https://github.com/TacHawkes/LibIIO.jl
+] add LibIIO
 ```
 
 # Usage
