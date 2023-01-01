@@ -346,7 +346,7 @@ hwmon(d::Device) = error("TODO")
 
 Context for the device.
 """
-context(d::Device) = device_or_trigger(d).ctx
+iio_context(d::Device) = device_or_trigger(d).ctx
 
 """
     trigger!(d::Device, trigger::Trigger)
@@ -364,9 +364,9 @@ Returns the configured trigger for this IIO device, if present in the current co
 """
 function trigger(d::Device)
     ret, _trig = _d_get_trigger(d.device.device)
-    trig = Trigger(context(d), _trig)
+    trig = Trigger(iio_context(d), _trig)
 
-    for dev in devices(context(d))
+    for dev in devices(iio_context(d))
         if id(trig.id) == id(dev)
             return dev
         end

@@ -1,4 +1,5 @@
-context(ctx::AbstractContext) = ctx.context
+# internal method, get underlying pointer to iio_context
+iio_context(ctx::AbstractContext) = ctx.context
 
 """
     set_timeout(ctx::AbstractContext, timeout)
@@ -8,14 +9,14 @@ Set a timeout for I/O operations.
 # Parameters
 - `value` : The timeout value, in milliseconds
 """
-set_timeout(ctx::AbstractContext, timeout) = _set_timeout(context(ctx), timeout)
+set_timeout(ctx::AbstractContext, timeout) = _set_timeout(iio_context(ctx), timeout)
 
 """
     clone(ctx::T) where {T <: AbstractContext}
 
 Clones the IIO context.
 """
-clone(ctx::T) where {T <: AbstractContext} = T(_clone(context(ctx)))
+clone(ctx::T) where {T <: AbstractContext} = T(_clone(iio_context(ctx)))
 
 """
     name(ctx::AbstractContext)
@@ -58,7 +59,7 @@ attrs(ctx::AbstractContext) = ctx.attrs
 Find an IIO device by its name, ID or label.
 """
 function find_device(ctx::AbstractContext, name_or_id_or_label)
-    dev = _find_device(context(ctx), name_or_id_or_label)
+    dev = _find_device(iio_context(ctx), name_or_id_or_label)
     return _d_is_trigger(dev) ? Trigger(ctx, dev) : Device(ctx, dev)
 end
 
@@ -69,12 +70,12 @@ List of devices contained in this context.
 """
 function devices(ctx::AbstractContext)
     return [(_d_is_trigger(dev) ? Trigger(ctx, dev) : Device(ctx, dev))
-            for dev in [_get_device(context(ctx), convert(Cuint, x - 1))
-                        for x in 1:_devices_count(context(ctx))]]
+            for dev in [_get_device(iio_context(ctx), convert(Cuint, x - 1))
+                        for x in 1:_devices_count(iio_context(ctx))]]
 end
 
 function show(io::IO, ctx::AbstractContext)
-    _ctx = context(ctx)
+    _ctx = iio_context(ctx)
     name = _get_name(_ctx)
     println(io, "IIO context created with ", name, " backend.")
     ret, major, minor, git_tag = _get_version(_ctx)
@@ -168,7 +169,7 @@ init_ctx(ctx::String) = _new_uri(ctx)
 init_ctx(::Nothing) = _new_default()
 
 abstract type AbstractBackendContext <: AbstractContext end
-context(ctx::AbstractBackendContext) = context(ctx.context)
+iio_context(ctx::AbstractBackendContext) = iio_context(ctx.context)
 name(ctx::AbstractBackendContext) = name(ctx.context)
 description(ctx::AbstractBackendContext) = description(ctx.context)
 xml(ctx::AbstractBackendContext) = xml(ctx.context)
@@ -246,7 +247,6 @@ function scan_contexts()
     ptr = Ptr{Ptr{iio_context_info}}(0)
     ctx = _create_scan_context("")
     ctx_nb = _get_context_info_list(ctx, Ref(ptr))
-    @info ctx_nb
     for i in 1:ctx_nb
         info = unsafe_load(ptr[], i)
         scan_ctx[_context_info_get_uri(info)] = _context_info_get_description(info)

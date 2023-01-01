@@ -30,7 +30,7 @@ end
 read(a::ChannelAttr) = _c_read_attr(a.channel, a.name)
 write(a::ChannelAttr, value) = _c_write_attr(a.channel, a.name, value)
 
-function show(io::IO, chn::AbstractChannel, tree_depth=0)
+function show(io::IO, chn::AbstractChannel, tree_depth = 0)
     _chn = chn.channel
     if chn.output
         type_name = "output"
