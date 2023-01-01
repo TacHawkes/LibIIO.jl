@@ -29,14 +29,12 @@ The filename in sysfs to which this attribute is bound.
 """
 filename(a::Attr) = a.filename
 
-function show(io::IO, attr::Attr, k=-1)
+function show(io::IO, attr::Attr, tree_depth = 0, k = -1)
     ret, value = read(attr)
-    _name = attr.name
-    if k >= 0
-        print(io, "\t\t\t\tattr $k: $_name ")
-    else
-        print(io, "attr: $_name ")
-    end
+    _name = name(attr)
+    print(io, "\t"^tree_depth, "attr")
+    k >= 0 ? print(io, " $k:") : print(io, ":")
+    print(io, " ", _name, " ")
 
     if ret > 0
         println(io, "value: $value")

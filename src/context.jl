@@ -105,7 +105,7 @@ function show(io::IO, ctx::AbstractContext)
 
     devs = devices(ctx)
     for dev in devs
-        show(io, dev)
+        show(io, dev, 1)
     end
 end
 

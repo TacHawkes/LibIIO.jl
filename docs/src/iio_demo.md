@@ -31,7 +31,7 @@ Now you can use the demo devices either on the same system or from a different s
 
 This example will send a sine wave signal to the DAC device using buffers and reads the signal back using the ADC device with another buffer and checks that data is identical.
 
-Create a new Julia environment with `LibIIO.jl` installed as package. Then create a new julia file and load the package with
+Create a new Julia environment with `LibIIO.jl` installed as package. Then create a new Julia file and load the package with
 
 ```julia
 using LibIIO

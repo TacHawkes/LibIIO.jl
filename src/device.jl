@@ -163,33 +163,35 @@ The sample size varies each time channels get enabled or disabled.
 """
 sample_size(d::AbstractDeviceOrTrigger) = _get_sample_size(device_or_trigger(d).device)
 
-function show(io::IO, dev::AbstractDeviceOrTrigger)
+function show(io::IO, dev::AbstractDeviceOrTrigger, tree_depth = 0)
     d_o_t = device_or_trigger(dev)
     _dev = d_o_t.device
     _name = name(dev)
     _label = label(dev)
     _id = id(dev)
-    print(io, "\t$_id:")
+    print(io, "\t"^tree_depth, "$_id:")
     !isempty(_name) && print(io, " $_name")
     !isempty(_label) && print(io, " (label: $_label")
     dev_is_buffer_capable(_dev) && print(io, " (buffer capable)")
     println(io)
 
+    tree_depth += 1
     nb_channels = _channels_count(_dev)
-    println(io, "\t\t$nb_channels channels found:")
+
+    println(io, "\t"^tree_depth, "$nb_channels channels found:")
 
     chns = channels(dev)
     for chn in chns
-        show(io, chn)
+        show(io, chn, tree_depth + 1)
     end
 
     nb_attrs = _d_attr_count(_dev)
     if nb_attrs > 0
-        println(io, "\t\t$nb_attrs device-specific attributes found:")
+        println(io, "\t"^tree_depth, "$nb_attrs device-specific attributes found:")
 
         j = 0
         for (_name, attr) in attrs(dev)
-            show(io, attr, j)
+            show(io, attr, tree_depth + 2, j)
 
             j += 1
         end
@@ -197,11 +199,11 @@ function show(io::IO, dev::AbstractDeviceOrTrigger)
 
     nb_attrs = _d_buffer_attr_count(_dev)
     if nb_attrs > 0
-        println(io, "\t\t$nb_attrs buffer-specific attributes found:")
+        println(io, "\t"^tree_depth, "$nb_attrs buffer-specific attributes found:")
 
         j = 0
         for (_name, attr) in buffer_attrs(dev)
-            show(io, attr, j)
+            show(io, attr, tree_depth + 2, j)
 
             j += 1
         end
@@ -209,11 +211,11 @@ function show(io::IO, dev::AbstractDeviceOrTrigger)
 
     nb_attrs = _d_debug_attr_count(_dev)
     if nb_attrs > 0
-        println(io, "\t\t$nb_attrs debug-specific attributes found:")
+        println(io, "\t"^tree_depth, "$nb_attrs debug-specific attributes found:")
 
         j = 0
         for (_name, attr) in debug_attrs(dev)
-            show(io, attr, j)
+            show(io, attr, tree_depth + 2, j)
 
             j += 1
         end
@@ -222,14 +224,14 @@ function show(io::IO, dev::AbstractDeviceOrTrigger)
     ret, trig = _d_get_trigger(_dev)
     if ret == 0
         if trig == C_NULL
-            println(io, "\t\tNo trigger assigned to device")
+            println(io, "\t"^tree_depth, "No trigger assigned to device")
         else
             _name = _d_get_name(trig)
             _id = _d_get_id(trig)
-            println("\t\tCurrent trigger: $_name($_id)")
+            println("\t"^tree_depth, "Current trigger: $_name($_id)")
         end
     elseif ret == -ENOENT
-        println(io, "\t\tNo trigger on this device")
+        println(io, "\t"^tree_depth, "No trigger on this device")
     elseif ret < 0
         err_str = iio_strerror(-ret)
         println("ERROR: checking for trigger : $err_str")

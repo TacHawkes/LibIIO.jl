@@ -30,7 +30,7 @@ end
 read(a::ChannelAttr) = _c_read_attr(a.channel, a.name)
 write(a::ChannelAttr, value) = _c_write_attr(a.channel, a.name, value)
 
-function show(io::IO, chn::AbstractChannel)
+function show(io::IO, chn::AbstractChannel, tree_depth=0)
     _chn = chn.channel
     if chn.output
         type_name = "output"
@@ -38,9 +38,9 @@ function show(io::IO, chn::AbstractChannel)
         type_name = "input"
     end
 
-    _name = chn.name
-    _id = chn.id
-    print(io, "\t\t\t$_id: $_name ($type_name")
+    _name = name(chn)
+    _id = id(chn)
+    print(io, "\t"^tree_depth, "$_id: $_name ($type_name")
 
     (type(chn) == IIO_CHAN_TYPE_UNKNOWN) &&
         print(io, ", WARN::iio_channel_get_type()=UNKNOWN")
@@ -65,11 +65,11 @@ function show(io::IO, chn::AbstractChannel)
 
     nb_attrs = iio_channel_get_attrs_count(_chn)
     if nb_attrs > 0
-        println(io, "\t\t\t$nb_attrs channel-specific attributes found:")
+        println(io, "\t"^tree_depth, "$nb_attrs channel-specific attributes found:")
 
         k = 0
         for (_name, attr) in chn.attrs
-            show(io, attr, k)
+            show(io, attr, tree_depth + 1, k)
 
             k += 1
         end
