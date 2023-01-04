@@ -125,6 +125,9 @@ function write(chn::AbstractChannel, buf::AbstractBuffer, data::Vector{T}, raw =
     return _c_write(iio_channel(chn), buf.buffer, _data)
 end
 
+
+name(chn::AbstractChannel) = chn.name
+
 """
     id(chn)
 
@@ -241,6 +244,7 @@ function Channel(dev::AbstractDeviceOrTrigger, channel::Ptr{iio_channel})
     name = _c_get_name(channel)
     output = _c_is_output(channel)
     scan_element = _c_is_scan_element(channel)
+
     return Channel(channel,
                    dev,
                    attrs,

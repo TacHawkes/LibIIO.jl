@@ -18,3 +18,4 @@ Thumbs.db
 .vscode
 
 test/invalidations.jl
+gen/*
