@@ -1,7 +1,7 @@
 name = "LibIIO"
 uuid = "054d326e-df27-43d9-b4b2-3b491c653341"
 authors = ["Oliver Kliebisch <oliver@kliebisch.net> and contributors"]
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 libiio_jll = "8da1a5bb-246c-59c5-9ba1-a6804f8e92f0"
