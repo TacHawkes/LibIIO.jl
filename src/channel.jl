@@ -30,7 +30,7 @@ end
 read(a::ChannelAttr) = _c_read_attr(a.channel, a.name)
 write(a::ChannelAttr, value) = _c_write_attr(a.channel, a.name, value)
 
-function show(io::IO, chn::AbstractChannel, tree_depth = 0)
+function show(io::IO, ::MIME"text/plain", chn::AbstractChannel, tree_depth = 0)
     _chn = iio_channel(chn)
     if chn.output
         type_name = "output"
@@ -69,7 +69,7 @@ function show(io::IO, chn::AbstractChannel, tree_depth = 0)
 
         k = 0
         for (_name, attr) in chn.attrs
-            show(io, attr, tree_depth + 1, k)
+            show(io, MIME("text/plain"), attr, tree_depth + 1, k)
 
             k += 1
         end

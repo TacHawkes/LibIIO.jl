@@ -163,7 +163,7 @@ The sample size varies each time channels get enabled or disabled.
 """
 sample_size(d::AbstractDeviceOrTrigger) = _get_sample_size(device_or_trigger(d).device)
 
-function show(io::IO, dev::AbstractDeviceOrTrigger, tree_depth = 0)
+function show(io::IO, ::MIME"text/plain", dev::AbstractDeviceOrTrigger, tree_depth = 0)
     d_o_t = device_or_trigger(dev)
     _dev = d_o_t.device
     _name = name(dev)
@@ -182,7 +182,7 @@ function show(io::IO, dev::AbstractDeviceOrTrigger, tree_depth = 0)
 
     chns = channels(dev)
     for chn in chns
-        show(io, chn, tree_depth + 1)
+        show(io, MIME("text/plain"), chn, tree_depth + 1)
     end
 
     nb_attrs = _d_attr_count(_dev)
@@ -191,7 +191,7 @@ function show(io::IO, dev::AbstractDeviceOrTrigger, tree_depth = 0)
 
         j = 0
         for (_name, attr) in attrs(dev)
-            show(io, attr, tree_depth + 2, j)
+            show(io, MIME("text/plain"), attr, tree_depth + 2, j)
 
             j += 1
         end
@@ -203,7 +203,7 @@ function show(io::IO, dev::AbstractDeviceOrTrigger, tree_depth = 0)
 
         j = 0
         for (_name, attr) in buffer_attrs(dev)
-            show(io, attr, tree_depth + 2, j)
+            show(io, MIME("text/plain"), attr, tree_depth + 2, j)
 
             j += 1
         end
@@ -215,7 +215,7 @@ function show(io::IO, dev::AbstractDeviceOrTrigger, tree_depth = 0)
 
         j = 0
         for (_name, attr) in debug_attrs(dev)
-            show(io, attr, tree_depth + 2, j)
+            show(io, MIME("text/plain"), attr, tree_depth + 2, j)
 
             j += 1
         end

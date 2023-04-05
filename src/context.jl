@@ -74,7 +74,7 @@ function devices(ctx::AbstractContext)
                         for x in 1:_devices_count(iio_context(ctx))]]
 end
 
-function show(io::IO, ctx::AbstractContext)
+function show(io::IO, ::MIME"text/plain", ctx::AbstractContext)
     _ctx = iio_context(ctx)
     name = _get_name(_ctx)
     println(io, "IIO context created with ", name, " backend.")
@@ -106,7 +106,7 @@ function show(io::IO, ctx::AbstractContext)
 
     devs = devices(ctx)
     for dev in devs
-        show(io, dev, 1)
+        show(io, MIME("text/plain"), dev, 1)
     end
 end
 
