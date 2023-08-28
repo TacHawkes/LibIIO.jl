@@ -303,25 +303,50 @@ Read the content of the given device-specific attribute.
 - `attr::String` : A string corresponding to the name of the attribute
 
 # Returns
-- On success, a Vector of Tuples of attribute index and value if
-  `attr` is an empty string, otherwise a string with the attribute value.
+- On success, a string with the attribute value.
 - On error, a negative errno code is returned
 
 !!! note
-    By an empty string as the "attr" argument to [`iio_device_attr_read`](@ref), it is now
-    possible to read all of the attributes of a device.
+    This function deviates from the C library [`iio_device_attr_read`](@ref).
+    Instead of passing an empty string, call the function without the attr argument.
 
 See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Device.html#gaf0233eb0ef4a64ad70ebaef6328b0494)
 """
 function iio_device_attr_read(dev::Ptr{iio_device}, attr::String)
-    attr == "" && (attr = C_NULL)
-    dst = Vector{Cuchar}(undef, BUF_SIZE)
+    dst = DST_BUFFER
     ret = ccall((:iio_device_attr_read, libiio),
                 Cssize_t,
                 (Ptr{iio_device}, Cstring, Cstring, Csize_t),
                 dev, attr, pointer(dst), BUF_SIZE)
 
-    attr == C_NULL ? attrs = iio_parse_attr(dst, ret) : attrs = unsafe_string(pointer(dst))
+    attrs = unsafe_string(pointer(dst))
+    return ret, attrs
+end
+
+"""
+    iio_device_attr_read(dev)
+
+Read the content of the given device-specific attribute.
+
+# Parameters
+- `dev::Ptr{iio_device}` : A pointer to an [`iio_device`](@ref) structure
+
+# Returns
+- On success, a Vector of Tuples of attribute index and value
+- On error, a negative errno code is returned
+
+
+See [libiio](https://analogdevicesinc.github.io/libiio/master/libiio/group__Device.html#gaf0233eb0ef4a64ad70ebaef6328b0494)
+"""
+function iio_device_attr_read(dev::Ptr{iio_device})
+    attr = C_NULL
+    dst = DST_BUFFER
+    ret = ccall((:iio_device_attr_read, libiio),
+                Cssize_t,
+                (Ptr{iio_device}, Cstring, Cstring, Csize_t),
+                dev, attr, pointer(dst), BUF_SIZE)
+
+    attrs = iio_parse_attr(dst, ret)
     return ret, attrs
 end
 

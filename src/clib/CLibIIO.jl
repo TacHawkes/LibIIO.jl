@@ -4,6 +4,7 @@ using libiio_jll
 const libiio = libiio_jll.libiio
 
 const BUF_SIZE = 16384
+const DST_BUFFER = Vector{Cchar}(undef, BUF_SIZE)
 
 include("ctypes.jl")
 export iio_scan_context,
