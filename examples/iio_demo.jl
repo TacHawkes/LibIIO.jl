@@ -58,3 +58,9 @@ if all(d2 .== y)
 else
     @error "Loopback failed"
 end
+
+
+##
+atr = attrs(adc_chn)["adc_channel_attr"]
+
+ret, v = read(atr)
