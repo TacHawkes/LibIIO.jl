@@ -51,7 +51,7 @@ Contains the format of a data sample.
 - `is_signed::Cuchar` : Contains true if the sample is signed
 - `is_fully_defined::Cuchar` : Contains true if the sample is fully defoned, sign extended, etc.
 - `is_be::Cuchar` : Contains true if the sample is in big-endian format
-- `with_scale::Cuchar` : Contains true if the sample should be scaled or converted
+- `with_scale::Cuchar` : Contains true if the sample is in big-endian format
 - `scale::Cdouble` : Contains the scale to apply if `with_scale` is set
 - `repeat::Cuint` : Numver of times length repeats
 
@@ -182,13 +182,8 @@ end
 
 function check_null(input)
     if input == C_NULL
-        @static if Sys.iswindows()
-            err = Libc.GetLastError()
-            error(Libc.FormatMessage(err))
-        else
-            err = Libc.errno()
-            error(Libc.strerror(err))
-        end
+        err = Libc.errno()
+        error(iio_strerror(Cint(err)))
     end
 
     return input
