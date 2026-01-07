@@ -30,7 +30,7 @@ The filename in sysfs to which this attribute is bound.
 filename(a::Attr) = a.filename
 
 function show(io::IO, ::MIME"text/plain", attr::Attr, tree_depth = 0, k = -1)
-    ret, value = read(attr)
+    ret::Cint, value = read(attr)
     _name = name(attr)
     print(io, "\t"^tree_depth, "attr")
     k >= 0 ? print(io, " $k:") : print(io, ":")

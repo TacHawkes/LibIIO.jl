@@ -89,7 +89,7 @@ List of channels available with this IIO device.
 function channels(d::AbstractDeviceOrTrigger)
     _dt = device_or_trigger(d)
     chns = [Channel(_dt,
-                    _get_channel(_dt.device, convert(Cuint, x - 1)))
+                _get_channel(_dt.device, convert(Cuint, x - 1)))
             for x in 1:_channels_count(_dt.device)]
     sort!(chns, by = x -> id(x))
 
@@ -253,35 +253,35 @@ end
 function DeviceOrTrigger(ctx::AbstractContext, device::Ptr{iio_device})
     context = _d_get_context(device)
     attrs = Dict{String, DeviceAttr}(name => DeviceAttr(device, name)
-                                     for name in [_d_get_attr(device,
-                                                              convert(Cuint, x - 1))
-                                                  for x in 1:_d_attr_count(device)])
+    for name in [_d_get_attr(device,
+                     convert(Cuint, x - 1))
+                 for x in 1:_d_attr_count(device)])
     debug_attrs = Dict{String, DeviceDebugAttr}(name => DeviceDebugAttr(device, name)
-                                                for name in [_d_get_debug_attr(device,
-                                                                               convert(Cuint,
-                                                                                       x -
-                                                                                       1))
-                                                             for x in 1:_d_debug_attr_count(device)])
+    for name in [_d_get_debug_attr(device,
+                     convert(Cuint,
+                         x -
+                         1))
+                 for x in 1:_d_debug_attr_count(device)])
     buffer_attrs = Dict{String, DeviceBufferAttr}(name => DeviceBufferAttr(device, name)
-                                                  for name in [_d_get_buffer_attr(device,
-                                                                                  convert(Cuint,
-                                                                                          x -
-                                                                                          1))
-                                                               for x in 1:_d_buffer_attr_count(device)])
+    for name in [_d_get_buffer_attr(device,
+                     convert(Cuint,
+                         x -
+                         1))
+                 for x in 1:_d_buffer_attr_count(device)])
 
     id = _d_get_id(device)
     name = _d_get_name(device)
     label = _d_get_label(device)
 
     return DeviceOrTrigger(ctx,
-                           context,
-                           device,
-                           attrs,
-                           debug_attrs,
-                           buffer_attrs,
-                           id,
-                           name,
-                           label)
+        context,
+        device,
+        attrs,
+        debug_attrs,
+        buffer_attrs,
+        id,
+        name,
+        label)
 end
 
 """
@@ -354,7 +354,7 @@ iio_context(d::Device) = device_or_trigger(d).ctx
 Sets the configured trigger for this IIO device.
 """
 function trigger!(d::Device, trigger::Trigger)
-    _d_set_trigger(d.device.device, trigger.device.device)
+    _d_set_trigger(d.device.device, trigger.trigger.device)
 end
 
 """
