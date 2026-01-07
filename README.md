@@ -1,8 +1,5 @@
 # LibIIO.jl
 
-[![Build Status](https://github.com/tachawkes/LibIIO.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/tachawkes/LibIIO.jl/actions/workflows/CI.yml?query=branch%3Amain)
-[![Build Status](https://ci.appveyor.com/api/projects/status/github/tachawkes/LibIIO.jl?svg=true)](https://ci.appveyor.com/project/tachawkes/LibIIO-jl)
-
 LibIIO.jl provides Julia bindings for [libiio](https://wiki.analog.com/resources/tools-software/linux-software/libiio) which is a library for interfacing with Linux industrial I/O devices. This packages is meant to
 give you an easy-to-use high-level API interface matching the [Python-bindings](https://github.com/analogdevicesinc/libiio/tree/master/bindings/python) with some adaptions to Julia-specifics. If you prefer to work directly with libiio, all C-functions are exposed (but not exported) as a Julia function matching the C functions exactly in name. These function mostly match their C-counterparts but have some added convenience around them and convert their results to Julia types where applicable.
 
